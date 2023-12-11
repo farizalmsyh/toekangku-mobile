@@ -9,4 +9,16 @@
     <string name="info_login">Silakan masukkan informasi login Anda di bawah ini untuk mengakses akun Anda</string>
     <string name="akun_baru">Belum punya akun?</string>
     <string name="daftar_baru">Daftar disini.</string>
+    <string name="ob_satu">ToekangKu merupakan Aplikasi yang membantu anda dalam memenuhi semua kebutuhan anda</string>
+    <string name="ob_dua">Temukan pekerjaan terbaik di sekitar Anda dalam hitungan detik, buat janji temu, dan nikmati pengalaman kerja terbaik.</string>
+    <string name="ob_tiga">Temukan pekerja yang  berkualitas, berkemampuan, dan buat janji temu dengan mudah. Cari kebutuhan yang kamu inginkan!</string>
+    <string name="lupa_password_desk">Silakan masukkan email Anda untuk proses reset kata sandi</string>
+    <string name="ganti_pw">Silakan masukkan password baru anda untuk proses reset password akun Anda</string>
+    <string name="preRegist">Silakan masukkan data anda untuk menyelesaikan proses pendaftaran akun anda</string>
+    <string name="daftar_utk_pekerja">Silakan masukkan data diri Anda untuk melengkapi akun Anda sebagai proses pendaftaran pekerja</string>
+    <string name="verif_email">Kami telah mengirimkan email verifikasi ke email Anda yang terdaftar. Silakan periksa semua email masuk termasuk spam dan verifikasi sesegera mungkin.</string>
+    <string name="daftar_utk_pelanggan">Silakan masukkan data diri Anda untuk melengkapi akun Anda sebagai proses pendaftaran pelanggan</string>
+    <string name="otp">Silakan masukkan kode otentikasi yang telah kami kirimkan ke email Anda</string>
+    <string name="lorem">“ToekangKu: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</string>
+    <string name="required_field">Kolom ini wajib diisi!</string>
 </resources>
