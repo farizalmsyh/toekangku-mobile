@@ -1,5 +1,6 @@
 package com.dicoding.toekangku1.ui.register.screen.screenworker
 
+import android.app.DatePickerDialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -11,8 +12,10 @@ import com.dicoding.toekangku1.R
 import com.dicoding.toekangku1.data.Experience
 import com.dicoding.toekangku1.databinding.ActivityRegistFirstWorkerBinding
 import com.dicoding.toekangku1.ui.ViewModelFactory
+import com.dicoding.toekangku1.ui.login.LoginActivity
 import com.dicoding.toekangku1.ui.register.RegisterViewModel
-import com.dicoding.toekangku1.ui.register.screen.VerifyEmail
+import com.google.android.material.textfield.TextInputEditText
+import java.util.Calendar
 
 class RegisterFirstWorkerActivity : AppCompatActivity() {
 
@@ -23,6 +26,10 @@ class RegisterFirstWorkerActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityRegistFirstWorkerBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        setupView()
+        setupAction()
+        setupViewModel()
     }
 
     private fun setupViewModel(){
@@ -33,13 +40,27 @@ class RegisterFirstWorkerActivity : AppCompatActivity() {
         binding = ActivityRegistFirstWorkerBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        supportActionBar?.apply {
-
-        }
+        supportActionBar?.hide()
     }
 
     private fun setupAction(){
         binding.apply {
+
+            // Tambahkan aksi untuk menampilkan date picker untuk pengalaman pertama
+            pengalamanPertamaDateEditText.setOnClickListener {
+                showDatePickerDialog(pengalamanPertamaDateEditText)
+            }
+
+            // Tambahkan aksi untuk menampilkan date picker untuk pengalaman kedua
+            pengalamanKeduaDateEditText.setOnClickListener {
+                showDatePickerDialog(pengalamanKeduaDateEditText)
+            }
+
+            // Tambahkan aksi untuk menampilkan date picker untuk pengalaman ketiga
+            pengalamanKetigaDateEditText.setOnClickListener {
+                showDatePickerDialog(pengalamanKetigaDateEditText)
+            }
+
             btnSimpanRegistPekerja.setOnClickListener {
                 if (
                     nameEditText.length() == 0 &&
@@ -152,6 +173,26 @@ class RegisterFirstWorkerActivity : AppCompatActivity() {
         }
     }
 
+    private fun showDatePickerDialog(editText: TextInputEditText) {
+        val calendar = Calendar.getInstance()
+        val year = calendar.get(Calendar.YEAR)
+        val month = calendar.get(Calendar.MONTH)
+        val day = calendar.get(Calendar.DAY_OF_MONTH)
+
+        val datePickerDialog = DatePickerDialog(
+            this,
+            { _, selectedYear, selectedMonth, selectedDay ->
+                val selectedDate = "$selectedYear-${selectedMonth + 1}-$selectedDay"
+                editText.setText(selectedDate)
+            },
+            year,
+            month,
+            day
+        )
+
+        datePickerDialog.show()
+    }
+
 
     private fun showLoading() {
         registerViewModel.isLoading.observe(this@RegisterFirstWorkerActivity) {
@@ -172,7 +213,7 @@ class RegisterFirstWorkerActivity : AppCompatActivity() {
     private fun moveActivity(){
         registerViewModel.registerResponse.observe(this@RegisterFirstWorkerActivity){ response ->
             if (response.success == true){
-                startActivity(Intent(this@RegisterFirstWorkerActivity, VerifyEmail::class.java))
+                startActivity(Intent(this@RegisterFirstWorkerActivity, LoginActivity::class.java))
                 finish()
             }
         }

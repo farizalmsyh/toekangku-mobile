@@ -38,11 +38,11 @@ interface ApiService {
         @Part experiences: List<MultipartBody.Part>
     ): Call<RegisterResponse>
 
-    @FormUrlEncoded
+    @Multipart
     @POST("/auth/login")
     fun login(
-        @Field("email") email: String,
-        @Field("password") password: String
+        @Part("email") email: MultipartBody.Part,
+        @Part("password") password: MultipartBody.Part
     ): Call<LoginResponse>
 
     @FormUrlEncoded

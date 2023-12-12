@@ -57,12 +57,11 @@ class UserPreference private constructor(private val dataStore: DataStore<Prefer
                 profesi = profesi,
                 tahunMulaiBekerja = tahunMulaiBekerja,
                 pengalaman = pengalaman,
-                isLogin = preferences[IS_LOGIN_KEY] ?: false
             )
         }
     }
 
-    suspend fun saveSession(user: User) {
+    suspend fun saveSession(login: login) {
         dataStore.edit { preferences ->
             preferences[USERTYPE_KEY] = user.tipePengguna
             preferences[NAME_KEY] = user.nama

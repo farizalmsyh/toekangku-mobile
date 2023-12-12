@@ -85,7 +85,15 @@
             app:layout_constraintTop_toBottomOf="@+id/email_login"
             app:startIconDrawable="@drawable/ic_email_login"
             tools:alpha="100"
-            tools:ignore="MissingConstraints" />
+            tools:ignore="MissingConstraints">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/emailLoginEditText"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:ems="10"
+                android:inputType="text" />
+        </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
             android:id="@+id/textView3"
@@ -123,7 +131,14 @@
             app:layout_constraintTop_toBottomOf="@+id/textView3"
             app:layout_constraintVertical_bias="0.0"
             app:startIconDrawable="@drawable/ic_password"
-            tools:ignore="MissingConstraints" />
+            tools:ignore="MissingConstraints">
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/passwordLoginEditText"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:ems="10"
+                android:inputType="text" />
+        </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
             android:id="@+id/textView5"
@@ -135,11 +150,11 @@
             android:textColor="@color/yellow1"
             android:textSize="14sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/btn_simpan"
+            app:layout_constraintBottom_toTopOf="@+id/btn_kirim_login"
             app:layout_constraintEnd_toEndOf="parent" />
 
         <Button
-            android:id="@+id/btn_simpan"
+            android:id="@+id/btn_kirim_login"
             android:layout_width="390dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
@@ -186,5 +201,18 @@
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ProgressBar
+        android:id="@+id/progressbar_login"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminateTint="@color/yellow1"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

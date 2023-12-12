@@ -8,6 +8,7 @@ import androidx.lifecycle.asLiveData
 import com.dicoding.toekangku1.data.Experience
 import com.dicoding.toekangku1.data.User
 import com.dicoding.toekangku1.data.UserPreference
+import com.dicoding.toekangku1.data.login
 import com.dicoding.toekangku1.response.LoginResponse
 import com.dicoding.toekangku1.response.RegisterResponse
 import com.dicoding.toekangku1.retrofit.ApiService
@@ -214,7 +215,7 @@ class UserRepository private constructor(
 
     }
 
-    fun postLogin(email: String, password: String){
+    fun postLogin(email: MultipartBody.Part, password: MultipartBody.Part){
         _isLoading.value = true
         val client = apiService.login(email, password)
 
@@ -268,8 +269,8 @@ class UserRepository private constructor(
         })
     }
 
-    suspend fun saveSession(user: User) {
-        userPreference.saveSession(user)
+    suspend fun saveSession(login: login) {
+        userPreference.saveSession(login)
     }
 
     fun getSession(): LiveData<User> {
