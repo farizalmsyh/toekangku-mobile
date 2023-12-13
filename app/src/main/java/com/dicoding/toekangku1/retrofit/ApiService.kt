@@ -16,33 +16,34 @@ import retrofit2.http.Part
 
 interface ApiService {
 
-    @Multipart
+    @FormUrlEncoded
     @POST("/auth/register")
     fun register(
-        @Part("tipe_pengguna") tipePengguna: RequestBody,
-        @Part("nama") nama: RequestBody,
-        @Part("email") email: RequestBody,
-        @Part("password") password: RequestBody,
-        @Part("password_confirmation") konfirmasiPassword: RequestBody,
-        @Part("nik") nik: RequestBody,
-        @Part("notelp") nomorTelepon: RequestBody,
-        @Part("jenis_kelamin") jenisKelamin: RequestBody,
-        @Part("tanggal_lahir") ulangTahun: RequestBody,
-        @Part("provinsi") provinsi: RequestBody,
-        @Part("kota") kota: RequestBody,
-        @Part("kecamatan") kecamatan: RequestBody,
-        @Part("kelurahan") kelurahan: RequestBody,
-        @Part("kodepos") kodePos: RequestBody,
-        @Part("profesi") profesi: RequestBody,
-        @Part("tahun_mulai_bekerja") tahun_mulai_bekerja: RequestBody,
-        @Part experiences: List<MultipartBody.Part>
+        @Field("tipe_pengguna") tipePengguna: String,
+        @Field("nama") nama: String,
+        @Field("email") email: String,
+        @Field("password") password: String,
+        @Field("password_confirmation") konfirmasiPassword: String,
+        @Field("nik") nik: String,
+        @Field("notelp") nomorTelepon: String,
+        @Field("jenis_kelamin") jenisKelamin: String,
+        @Field("tanggal_lahir") ulangTahun: String,
+        @Field("provinsi") provinsi: String,
+        @Field("kota") kota: String,
+        @Field("kecamatan") kecamatan: String,
+        @Field("kelurahan") kelurahan: String,
+        @Field("kodepos") kodePos: String,
+        @Field("profesi") profesi: String,
+        @Field("tahun_mulai_bekerja") tahun_mulai_bekerja: String,
+        @Field("experiences") experiences: Array<Experience>
     ): Call<RegisterResponse>
 
-    @Multipart
+
+    @FormUrlEncoded
     @POST("/auth/login")
     fun login(
-        @Part("email") email: MultipartBody.Part,
-        @Part("password") password: MultipartBody.Part
+        @Field("email") email: String,
+        @Field("password") password: String
     ): Call<LoginResponse>
 
     @FormUrlEncoded

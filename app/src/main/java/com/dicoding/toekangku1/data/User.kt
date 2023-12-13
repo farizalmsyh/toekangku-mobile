@@ -17,8 +17,8 @@ data class User(
     val kodePos: String,
     val profesi: String,
     val tahunMulaiBekerja: String,
-    val pengalaman: Array<Experience> = emptyArray()
-
+    val pengalaman: Array<Experience>,
+    val token: String
 )
 
 data class Experience(
@@ -27,9 +27,14 @@ data class Experience(
     val description: String
 )
 
-
-data class login(
+data class Login(
     val email: String,
-    val password: String,
+    val password: String
+)
+
+data class SubmitOTP(
+    val email: String,
+    val secret: String,
+    val code: String,
     val isLogin: Boolean = false
 )

@@ -6,23 +6,21 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.asLiveData
 import com.dicoding.toekangku1.data.Experience
+import com.dicoding.toekangku1.data.Login
+import com.dicoding.toekangku1.data.SubmitOTP
 import com.dicoding.toekangku1.data.User
 import com.dicoding.toekangku1.data.UserPreference
-import com.dicoding.toekangku1.data.login
 import com.dicoding.toekangku1.response.LoginResponse
 import com.dicoding.toekangku1.response.RegisterResponse
+import com.dicoding.toekangku1.response.SubmitOTPResponse
 import com.dicoding.toekangku1.retrofit.ApiService
 import com.dicoding.toekangku1.ui.Event
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
-import okhttp3.RequestBody
 import org.json.JSONException
 import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
-import retrofit2.HttpException
 import retrofit2.Response
-import java.io.IOException
 import java.net.UnknownHostException
 
 class UserRepository private constructor(
@@ -35,6 +33,9 @@ class UserRepository private constructor(
 
     private val _loginResponse = MutableLiveData<LoginResponse>()
     val loginResponse: LiveData<LoginResponse> = _loginResponse
+
+    private val _submitOTPResponse = MutableLiveData<SubmitOTPResponse>()
+    val submitOTPResponse: LiveData<SubmitOTPResponse> = _submitOTPResponse
 
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
@@ -59,55 +60,28 @@ class UserRepository private constructor(
         kodePos: String,
         profesi: String,
         tahun_mulai_bekerja: String,
-        pengalaman: ArrayList<Experience>
+        pengalaman: Array<Experience>
     ) {
         _isLoading.value = true
-
-        // Mengonversi data pengalaman ke MultipartBody.Part
-        val experiencesPart = mutableListOf<MultipartBody.Part>()
-        for (experience in pengalaman) {
-            val experienceRequestBody = RequestBody.create("text/plain".toMediaTypeOrNull(), experience.toString())
-            val experiencePart = MultipartBody.Part.createFormData("pengalaman", experience.toString())
-            experiencesPart.add(experiencePart)
-        }
-
-        // Membuat bagian-bagian dari data pengguna
-        val tipePenggunaPart = createPartFromString(tipePengguna)
-        val namePart = createPartFromString(name)
-        val emailPart = createPartFromString(email)
-        val passwordPart = createPartFromString(password)
-        val konfirmasiPasswordPart = createPartFromString(konfirmasiPassword)
-        val nikPart = createPartFromString(nik)
-        val nomorTeleponPart = createPartFromString(nomorTelepon)
-        val jenisKelaminPart = createPartFromString(jenisKelamin)
-        val ulangTahunPart = createPartFromString(ulangTahun)
-        val provinsiPart = createPartFromString(provinsi)
-        val kotaPart = createPartFromString(kota)
-        val kecamatanPart = createPartFromString(kecamatan)
-        val kelurahanPart = createPartFromString(kelurahan)
-        val kodePosPart = createPartFromString(kodePos)
-        val profesiPart = createPartFromString(profesi)
-        val tahunMulaiBekerjaPart = createPartFromString(tahun_mulai_bekerja)
-
         // Panggil API dengan menggunakan bagian-bagian yang telah dibuat
         val client = apiService.register(
-            tipePenggunaPart,
-            namePart,
-            emailPart,
-            passwordPart,
-            konfirmasiPasswordPart,
-            nikPart,
-            nomorTeleponPart,
-            jenisKelaminPart,
-            ulangTahunPart,
-            provinsiPart,
-            kotaPart,
-            kecamatanPart,
-            kelurahanPart,
-            kodePosPart,
-            profesiPart,
-            tahunMulaiBekerjaPart,
-            experiencesPart
+            tipePengguna,
+            name,
+            email,
+            password,
+            konfirmasiPassword,
+            nik,
+            nomorTelepon,
+            jenisKelamin,
+            ulangTahun,
+            provinsi,
+            kota,
+            kecamatan,
+            kelurahan,
+            kodePos,
+            profesi,
+            tahun_mulai_bekerja,
+            pengalaman
         )
 
         client.enqueue(object : Callback<RegisterResponse> {
@@ -152,41 +126,25 @@ class UserRepository private constructor(
         kelurahan: String,
         kodePos: String
     ) {
-        // Buat bagian-bagian dari data pengguna
-        val tipePenggunaPart = createPartFromString(tipePengguna)
-        val namePart = createPartFromString(name)
-        val emailPart = createPartFromString(email)
-        val passwordPart = createPartFromString(password)
-        val konfirmasiPasswordPart = createPartFromString(konfirmasiPassword)
-        val nikPart = createPartFromString(nik)
-        val nomorTeleponPart = createPartFromString(nomorTelepon)
-        val jenisKelaminPart = createPartFromString(jenisKelamin)
-        val ulangTahunPart = createPartFromString(ulangTahun)
-        val provinsiPart = createPartFromString(provinsi)
-        val kotaPart = createPartFromString(kota)
-        val kecamatanPart = createPartFromString(kecamatan)
-        val kelurahanPart = createPartFromString(kelurahan)
-        val kodePosPart = createPartFromString(kodePos)
-
         // Panggil API dengan menggunakan bagian-bagian yang telah dibuat
         val client = apiService.register(
-            tipePenggunaPart,
-            namePart,
-            emailPart,
-            passwordPart,
-            konfirmasiPasswordPart,
-            nikPart,
-            nomorTeleponPart,
-            jenisKelaminPart,
-            ulangTahunPart,
-            provinsiPart,
-            kotaPart,
-            kecamatanPart,
-            kelurahanPart,
-            kodePosPart,
-            createPartFromString(""), // Memberikan nilai kosong untuk profesi
-            createPartFromString(""), // Memberikan nilai kosong untuk tahun_mulai_bekerja
-            emptyList()  // Memberikan nilai list kosong untuk experiences
+            tipePengguna,
+            name,
+            email,
+            password,
+            konfirmasiPassword,
+            nik,
+            nomorTelepon,
+            jenisKelamin,
+            ulangTahun,
+            provinsi,
+            kota,
+            kecamatan,
+            kelurahan,
+            kodePos,
+            (""), // Memberikan nilai kosong untuk profesi
+            (""), // Memberikan nilai kosong untuk tahun_mulai_bekerja
+            emptyArray()  // Memberikan nilai list kosong untuk experiences
         )
         client.enqueue(object : Callback<RegisterResponse> {
             override fun onResponse(
@@ -212,10 +170,9 @@ class UserRepository private constructor(
                 Log.e(TAG, "onFailure: ${t.message.toString()}")
             }
         })
-
     }
 
-    fun postLogin(email: MultipartBody.Part, password: MultipartBody.Part){
+    fun postLogin(email: String, password: String){
         _isLoading.value = true
         val client = apiService.login(email, password)
 
@@ -269,12 +226,76 @@ class UserRepository private constructor(
         })
     }
 
-    suspend fun saveSession(login: login) {
-        userPreference.saveSession(login)
+    fun postOTP(email: String, secret: String, code: String) {
+        _isLoading.value = true
+        val client = apiService.submitOTP(email, secret, code)
+
+        client.enqueue(object : Callback<SubmitOTPResponse>{
+            override fun onResponse(
+                call: Call<SubmitOTPResponse>,
+                response: Response<SubmitOTPResponse>
+            ) {
+                try {
+                    _isLoading.value=false
+                    if (response.isSuccessful && response.body() != null){
+                        _submitOTPResponse.value = response.body()
+                        _toastText.value = Event(response.body()?.message.toString())
+
+                    } else {
+                        val jsonObject = response.errorBody().toString()?.let { JSONObject(it) }
+                        val error = jsonObject?.getBoolean("error")
+                        val message = jsonObject?.getString("message")
+                        _submitOTPResponse.value = SubmitOTPResponse(null, error, message)
+                        _toastText.value = Event(
+                            "${response.message()} ${response.code()}, $message"
+
+                        )
+                        Log.e(
+                            "postLogin",
+                            "onResponse: ${response.message()}, ${response.code()} $message"
+                        )
+                    }
+                } catch (e: JSONException){
+                    _toastText.value = Event(e.message.toString())
+                    Log.e("JSONException", "onResponse: ${e.message.toString()}")
+                } catch (e: Exception){
+                    _toastText.value = Event(e.message.toString())
+                    Log.e("Exception", "onResponse: ${e.message.toString()}")
+                }
+            }
+
+            override fun onFailure(call: Call<SubmitOTPResponse>, t: Throwable) {
+                _isLoading.value=false
+                when(t){
+                    is UnknownHostException -> {
+                        _toastText.value = Event("No Internet Connection")
+                        Log.e("UnknownHostException", "onFailure: ${t.message.toString()}")
+                    }
+
+                    else -> {
+                        _toastText.value = Event(t.message.toString())
+                        Log.e("postLogin", "onFailure: ${t.message.toString()}")
+                    }
+                }
+            }
+
+        })
+    }
+
+    suspend fun saveSession(user: User) {
+        userPreference.saveSession(user)
     }
 
     fun getSession(): LiveData<User> {
         return userPreference.getSession().asLiveData()
+    }
+
+    suspend fun saveSessionLogin(submit: SubmitOTP){
+        userPreference.saveSessionLogin(submit)
+    }
+
+    fun getSessionLogin(login: Login): LiveData<Login> {
+        return userPreference.getSessionLogin().asLiveData()
     }
 
     suspend fun login() {
@@ -285,9 +306,6 @@ class UserRepository private constructor(
         userPreference.logout()
     }
 
-    private fun createPartFromString(string: String): RequestBody {
-        return RequestBody.create("text/plain".toMediaTypeOrNull(), string)
-    }
 
     companion object {
         @Volatile

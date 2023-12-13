@@ -1,15 +1,13 @@
 package com.dicoding.toekangku1.ui.login
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import com.dicoding.toekangku1.R
-import com.dicoding.toekangku1.data.User
-import com.dicoding.toekangku1.data.login
 import com.dicoding.toekangku1.databinding.ActivityLoginBinding
-import com.dicoding.toekangku1.databinding.ActivityRegistFirstSeekerBinding
 import com.dicoding.toekangku1.ui.ViewModelFactory
 
 class LoginActivity : AppCompatActivity() {
@@ -39,33 +37,42 @@ class LoginActivity : AppCompatActivity() {
         supportActionBar?.hide()
     }
 
-    private fun setupAction(){
+    private fun setupAction() {
         binding.btnKirimLogin.setOnClickListener {
-            val email = binding.emailLoginEditText
-            val password = binding.passwordLoginEditText
-            if (email.length() == 0 && password.length() == 0) {
-                email.error = getString(R.string.required_field)
-                password.setError(getString(R.string.required_field), null)
-            } else if (email.length() != 0 && password.length() != 0) {
+            val email = binding.emailLoginEditText.text.toString()
+            val password = binding.passwordLoginEditText.text.toString()
+            if (email.isEmpty() || password.isEmpty()) {
+                if (email.isEmpty()) {
+                    binding.emailLoginEditText.error = getString(R.string.required_field)
+                }
+                if (password.isEmpty()) {
+                    binding.passwordLoginEditText.error = getString(R.string.required_field)
+                }
+            } else {
                 showLoading()
                 loginViewModel.postLogin(email, password)
-                loginViewModel.loginResponse.observe(this@LoginActivity) { response ->
-                    loginViewModel.saveSession(
-                        login = login(
-                            response.data?.email.toString(),
-                            AUTH_KEY + response.Data?.secret.toString(),
-                            true,
-                            true,
-                            true
-                        )
-                    )
+            }
+        }
+
+        loginViewModel.loginResponse.observe(this@LoginActivity) { response ->
+            if (response != null) {
+                if (response.success == true) {
+                    moveActivity(response.data?.email.orEmpty(), response.data?.secret.orEmpty())
                 }
+            } else {
                 showToast()
-                loginViewModel.login()
-                moveActivity()
             }
         }
     }
+
+    fun moveActivity(email: String, secret: String) {
+        startActivity(Intent(this@LoginActivity, GetOTPActivity::class.java).apply {
+            putExtra("email", email)
+            putExtra("secret", secret)
+        })
+        finish()
+    }
+
 
     private fun showLoading() {
         loginViewModel.isLoading.observe(this@LoginActivity) {
@@ -83,7 +90,4 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    companion object{
-        private const val AUTH_KEY = "Bearer + "
-    }
 }

@@ -11,7 +11,6 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import okhttp3.internal.notify
 
 val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "session")
 class UserPreference private constructor(private val dataStore: DataStore<Preferences>) {
@@ -33,6 +32,7 @@ class UserPreference private constructor(private val dataStore: DataStore<Prefer
             val kodePos = preferences[POSTCODE_KEY] ?: ""
             val profesi = preferences[PROFESI_KEY] ?: ""
             val tahunMulaiBekerja = preferences[YEAR_KEY] ?: ""
+            val token = preferences[TOKEN_KEY] ?: ""
 
             // Get experiences from JSON
             val experiencesJson = preferences[EXPERIENCES_KEY] ?: ""
@@ -57,11 +57,12 @@ class UserPreference private constructor(private val dataStore: DataStore<Prefer
                 profesi = profesi,
                 tahunMulaiBekerja = tahunMulaiBekerja,
                 pengalaman = pengalaman,
+                token = token
             )
         }
     }
 
-    suspend fun saveSession(login: login) {
+    suspend fun saveSession(user: User) {
         dataStore.edit { preferences ->
             preferences[USERTYPE_KEY] = user.tipePengguna
             preferences[NAME_KEY] = user.nama
@@ -79,12 +80,30 @@ class UserPreference private constructor(private val dataStore: DataStore<Prefer
             preferences[POSTCODE_KEY] = user.kodePos
             preferences[PROFESI_KEY] = user.profesi
             preferences[YEAR_KEY] = user.tahunMulaiBekerja
-            preferences[IS_LOGIN_KEY] = true
 
             val experiencesJson = Gson().toJson(user.pengalaman)
             preferences[EXPERIENCES_KEY] = experiencesJson
+
+            preferences[TOKEN_KEY] = user.token
         }
     }
+
+    fun getSessionLogin() : Flow<Login>{
+        return dataStore.data.map { prefeferences ->
+            Login(
+                prefeferences[EMAIL_KEY] ?: "",
+                prefeferences[PASSWORD_KEY] ?: ""
+            )
+        }
+    }
+
+    suspend fun saveSessionLogin(submit: SubmitOTP){
+        dataStore.edit { preferences ->
+            preferences[EMAIL_KEY] = submit.email
+            preferences[PASSWORD_KEY] = submit.secret
+        }
+    }
+
 
     suspend fun login(){
         dataStore.edit { preferences ->
@@ -118,6 +137,7 @@ class UserPreference private constructor(private val dataStore: DataStore<Prefer
         private val PROFESI_KEY = stringPreferencesKey("profesi")
         private val YEAR_KEY = stringPreferencesKey("tahunMulaiBekerja")
         private val EXPERIENCES_KEY = stringPreferencesKey("pengalaman")
+        private val TOKEN_KEY = stringPreferencesKey("token")
         private val IS_LOGIN_KEY = booleanPreferencesKey("isLogin")
 
         fun getInstance(dataStore: DataStore<Preferences>): UserPreference {

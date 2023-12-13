@@ -19,6 +19,9 @@ data class LoginResponse(
 @Parcelize
 data class Data(
 
+	@field: SerializedName("email")
+	val email: String? = null,
+
 	@field:SerializedName("secret")
 	val secret: String? = null
 ) : Parcelable

@@ -15,7 +15,6 @@ class RegisterViewModel(private val repository: UserRepository): ViewModel() {
     val registerResponse: LiveData<RegisterResponse> = repository.registerResponse
     val isLoading: LiveData<Boolean> = repository.isLoading
     val toastText: LiveData<Event<String>> = repository.toastText
-    var selectedRole: String? = null
 
     fun register(
         tipePengguna: String,
@@ -34,7 +33,7 @@ class RegisterViewModel(private val repository: UserRepository): ViewModel() {
         kodePos: String,
         profesi: String,
         tahun_mulai_bekerja: String,
-        pengalaman: ArrayList<Experience>
+        pengalaman: Array<Experience>
     ) {
         viewModelScope.launch {
             repository.register(tipePengguna, name, email, password, konfirmasiPassword, nik, nomorTelepon, jenisKelamin, ulangTahun, provinsi, kota, kecamatan, kelurahan, kodePos, profesi, tahun_mulai_bekerja, pengalaman
