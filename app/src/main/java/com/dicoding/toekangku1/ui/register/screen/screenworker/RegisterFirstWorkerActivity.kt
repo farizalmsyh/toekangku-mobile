@@ -123,10 +123,7 @@ class RegisterFirstWorkerActivity : AppCompatActivity() {
 
     private fun postText() {
         binding.apply {
-            val sharedPreferences = getSharedPreferences("user_data", Context.MODE_PRIVATE)
-            val userType = sharedPreferences.getString("tipePengguna", "")
-
-            val pengalamanList = ArrayList<Experience>()
+            val pengalamanList = arrayOfNulls<Experience>(3)
 
             val pengalamanPertama = Experience(
                 name = pengalamanPertamaEditText.text.toString(),
@@ -146,10 +143,15 @@ class RegisterFirstWorkerActivity : AppCompatActivity() {
                 description = pengalamanKetigaDesc.text.toString()
             )
 
-            pengalamanList.add(pengalamanPertama)
-            pengalamanList.add(pengalamanKedua)
-            pengalamanList.add(pengalamanKetiga)
-            if (userType == "Pekerja") {
+            pengalamanList[0] = pengalamanPertama
+            pengalamanList[1] = pengalamanKedua
+            pengalamanList[2] = pengalamanKetiga
+
+            // Mengambil jenis pengguna dari Intent
+            val userType = intent.getStringExtra("userType")
+
+            // Pastikan jenis pengguna dan pengalaman tidak null sebelum mengirim ke API
+            if (!userType.isNullOrBlank()) {
                 registerViewModel.register(
                     userType,
                     nameEditText.text.toString(),
@@ -167,7 +169,7 @@ class RegisterFirstWorkerActivity : AppCompatActivity() {
                     kodePosEditText.text.toString(),
                     profesiEditText.text.toString(),
                     tahunEditText.text.toString(),
-                    pengalamanList
+                    pengalamanList.requireNoNulls()
                 )
             }
         }

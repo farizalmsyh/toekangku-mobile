@@ -282,20 +282,29 @@ class UserRepository private constructor(
         })
     }
 
-    suspend fun saveSession(user: User) {
-        userPreference.saveSession(user)
+//    suspend fun saveSession(user: User) {
+//        userPreference.saveSession(user)
+//    }
+//
+//    fun getSession(): LiveData<User> {
+//        return userPreference.getSession().asLiveData()
+//    }
+
+//    suspend fun saveSessionLogin(submit: SubmitOTP){
+//        userPreference.saveSessionLogin(submit)
+//    }
+//
+//    fun getSessionLogin(login: Login): LiveData<Login> {
+//        return userPreference.getSessionLogin().asLiveData()
+//    }
+
+    suspend fun saveSession(token: String){
+        userPreference.saveToken(token)
     }
 
-    fun getSession(): LiveData<User> {
-        return userPreference.getSession().asLiveData()
-    }
+    fun getSession(token: String): LiveData<String?> {
+        return userPreference.getToken().asLiveData()
 
-    suspend fun saveSessionLogin(submit: SubmitOTP){
-        userPreference.saveSessionLogin(submit)
-    }
-
-    fun getSessionLogin(login: Login): LiveData<Login> {
-        return userPreference.getSessionLogin().asLiveData()
     }
 
     suspend fun login() {

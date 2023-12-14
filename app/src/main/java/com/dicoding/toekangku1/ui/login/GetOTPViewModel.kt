@@ -21,9 +21,9 @@ class GetOTPViewModel(private val repository: UserRepository): ViewModel() {
         }
     }
 
-    fun saveSession(submit: SubmitOTP) {
+    fun saveSession(token: String) {
         viewModelScope.launch {
-            repository.saveSessionLogin(submit)
+            repository.saveSession(token)
         }
     }
 

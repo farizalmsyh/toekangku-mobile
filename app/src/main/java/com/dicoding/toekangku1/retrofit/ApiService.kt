@@ -17,7 +17,7 @@ import retrofit2.http.Part
 interface ApiService {
 
     @FormUrlEncoded
-    @POST("/auth/register")
+    @POST("/auth/register/")
     fun register(
         @Field("tipe_pengguna") tipePengguna: String,
         @Field("nama") nama: String,
@@ -35,7 +35,7 @@ interface ApiService {
         @Field("kodepos") kodePos: String,
         @Field("profesi") profesi: String,
         @Field("tahun_mulai_bekerja") tahun_mulai_bekerja: String,
-        @Field("experiences") experiences: Array<Experience>
+        @Field("experiences") pengalaman: Array<Experience>
     ): Call<RegisterResponse>
 
 
@@ -47,7 +47,7 @@ interface ApiService {
     ): Call<LoginResponse>
 
     @FormUrlEncoded
-    @POST("/auth/submit-otp")
+    @POST("/auth/submit-otp/")
     fun submitOTP(
         @Field("email") email: String,
         @Field("secret") secret: String,
@@ -55,7 +55,7 @@ interface ApiService {
     ): Call<SubmitOTPResponse>
 
     @FormUrlEncoded
-    @POST("/auth/experience/create")
+    @POST("/auth/experience/create/")
     fun createExperience(
         @Field("name") name: String,
         @Field("tanggal") tanggal: String,

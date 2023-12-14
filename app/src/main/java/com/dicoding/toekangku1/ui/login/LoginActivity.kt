@@ -3,6 +3,7 @@ package com.dicoding.toekangku1.ui.login
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -55,7 +56,14 @@ class LoginActivity : AppCompatActivity() {
         }
 
         loginViewModel.loginResponse.observe(this@LoginActivity) { response ->
+            Log.d("nih bro", "Response: $response")
             if (response != null) {
+
+                Log.d("adagak", "Success: ${response.success}")
+                Log.d("cobalagi", "Message: ${response.message}")
+                Log.d("coba", "Email: ${response.data?.email}")
+                Log.d("cobbaa", "Secret: ${response.data?.secret}")
+
                 if (response.success == true) {
                     moveActivity(response.data?.email.orEmpty(), response.data?.secret.orEmpty())
                 }
@@ -69,6 +77,8 @@ class LoginActivity : AppCompatActivity() {
         startActivity(Intent(this@LoginActivity, GetOTPActivity::class.java).apply {
             putExtra("email", email)
             putExtra("secret", secret)
+
+            Log.d("secret", secret.toString())
         })
         finish()
     }

@@ -95,12 +95,11 @@ class RegistFirstSeekerActivity : AppCompatActivity() {
         }
     }
 
-    private fun postText(){
-        binding.apply {
-            val sharedPreferences = getSharedPreferences("user_data", Context.MODE_PRIVATE)
-            val userType = sharedPreferences.getString("tipePengguna", "")
+    private fun postText() {
+        val userType = intent.getStringExtra("userType")
 
-            if (userType == "Pelanggan") {
+        if (userType == "Pelanggan") {
+            binding.apply {
                 registerViewModel.registerPelanggan(
                     userType,
                     namePelangganEditText.text.toString(),

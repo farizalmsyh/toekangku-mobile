@@ -88,22 +88,33 @@ class UserPreference private constructor(private val dataStore: DataStore<Prefer
         }
     }
 
-    fun getSessionLogin() : Flow<Login>{
-        return dataStore.data.map { prefeferences ->
-            Login(
-                prefeferences[EMAIL_KEY] ?: "",
-                prefeferences[PASSWORD_KEY] ?: ""
-            )
-        }
-    }
+//    fun getSessionLogin() : Flow<Login>{
+//        return dataStore.data.map { prefeferences ->
+//            Login(
+//                prefeferences[EMAIL_KEY] ?: "",
+//                prefeferences[PASSWORD_KEY] ?: ""
+//            )
+//        }
+//    }
+//
+//    suspend fun saveSessionLogin(submit: SubmitOTP){
+//        dataStore.edit { preferences ->
+//            preferences[EMAIL_KEY] = submit.email
+//            preferences[PASSWORD_KEY] = submit.secret
+//        }
+//    }
 
-    suspend fun saveSessionLogin(submit: SubmitOTP){
+    suspend fun saveToken(token: String) {
         dataStore.edit { preferences ->
-            preferences[EMAIL_KEY] = submit.email
-            preferences[PASSWORD_KEY] = submit.secret
+            preferences[TOKEN_KEY] = token
         }
     }
 
+    fun getToken(): Flow<String?> {
+        return dataStore.data.map { preferences ->
+            preferences[TOKEN_KEY]
+        }
+    }
 
     suspend fun login(){
         dataStore.edit { preferences ->
