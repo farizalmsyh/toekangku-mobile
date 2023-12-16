@@ -10,6 +10,7 @@ import com.dicoding.toekangku1.data.Login
 import com.dicoding.toekangku1.data.SubmitOTP
 import com.dicoding.toekangku1.data.User
 import com.dicoding.toekangku1.data.UserPreference
+import com.dicoding.toekangku1.response.ForgotPasswordResponse
 import com.dicoding.toekangku1.response.LoginResponse
 import com.dicoding.toekangku1.response.RegisterResponse
 import com.dicoding.toekangku1.response.SubmitOTPResponse
@@ -36,6 +37,9 @@ class UserRepository private constructor(
 
     private val _submitOTPResponse = MutableLiveData<SubmitOTPResponse>()
     val submitOTPResponse: LiveData<SubmitOTPResponse> = _submitOTPResponse
+
+    private val _forgotPassword = MutableLiveData<ForgotPasswordResponse>()
+    val forgotPassword: LiveData<ForgotPasswordResponse> = _forgotPassword
 
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
@@ -265,6 +269,62 @@ class UserRepository private constructor(
             }
 
             override fun onFailure(call: Call<SubmitOTPResponse>, t: Throwable) {
+                _isLoading.value=false
+                when(t){
+                    is UnknownHostException -> {
+                        _toastText.value = Event("No Internet Connection")
+                        Log.e("UnknownHostException", "onFailure: ${t.message.toString()}")
+                    }
+
+                    else -> {
+                        _toastText.value = Event(t.message.toString())
+                        Log.e("postLogin", "onFailure: ${t.message.toString()}")
+                    }
+                }
+            }
+
+        })
+    }
+
+    fun postForgotPassword(email: String){
+        _isLoading.value = true
+        val client = apiService.forgotPassword(email)
+
+        client.enqueue(object : Callback<ForgotPasswordResponse>{
+            override fun onResponse(
+                call: Call<ForgotPasswordResponse>,
+                response: Response<ForgotPasswordResponse>
+            ) {
+                try {
+                    _isLoading.value=false
+                    if (response.isSuccessful && response.body() != null){
+                        _forgotPassword.value = response.body()
+                        _toastText.value = Event(response.body()?.message.toString())
+
+                    } else {
+                        val jsonObject = response.errorBody().toString()?.let { JSONObject(it) }
+                        val error = jsonObject?.getBoolean("error")
+                        val message = jsonObject?.getString("message")
+                        _forgotPassword.value = ForgotPasswordResponse(null, error, message)
+                        _toastText.value = Event(
+                            "${response.message()} ${response.code()}, $message"
+
+                        )
+                        Log.e(
+                            "postLogin",
+                            "onResponse: ${response.message()}, ${response.code()} $message"
+                        )
+                    }
+                } catch (e: JSONException){
+                    _toastText.value = Event(e.message.toString())
+                    Log.e("JSONException", "onResponse: ${e.message.toString()}")
+                } catch (e: Exception){
+                    _toastText.value = Event(e.message.toString())
+                    Log.e("Exception", "onResponse: ${e.message.toString()}")
+                }
+            }
+
+            override fun onFailure(call: Call<ForgotPasswordResponse>, t: Throwable) {
                 _isLoading.value=false
                 when(t){
                     is UnknownHostException -> {

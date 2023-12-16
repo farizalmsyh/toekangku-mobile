@@ -1,12 +1,12 @@
 package com.dicoding.toekangku1.ui.register.screen.screenseeker
 
-import android.content.Context
+// Pastikan Anda mengimpor semua kelas yang dibutuhkan
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import com.dicoding.toekangku1.R
 import com.dicoding.toekangku1.databinding.ActivityRegistFirstSeekerBinding
 import com.dicoding.toekangku1.ui.ViewModelFactory
@@ -15,91 +15,34 @@ import com.dicoding.toekangku1.ui.register.RegisterViewModel
 
 class RegistFirstSeekerActivity : AppCompatActivity() {
     private lateinit var binding: ActivityRegistFirstSeekerBinding
-    private lateinit var factory: ViewModelFactory
-    private val registerViewModel: RegisterViewModel by viewModels { factory }
+    private val registerViewModel: RegisterViewModel by viewModels { ViewModelFactory.getInstance(this) }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        // Menggunakan metode inflate dari kelas binding
         binding = ActivityRegistFirstSeekerBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         setupView()
         setupAction()
-        setupViewModel()
-
-    }
-
-    private fun setupViewModel() {
-        factory = ViewModelFactory.getInstance(this)
     }
 
     private fun setupView() {
-        binding = ActivityRegistFirstSeekerBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
         supportActionBar?.hide()
     }
 
-    private fun setupAction(){
-        binding.apply {
-
-            btnSimpanRegistPelanggan.setOnClickListener {
-                if (
-                    namePelangganEditText.length() == 0 &&
-                    nikPelangganEditText.length() == 0 &&
-                    jenisKelaminPelangganEditText.length() == 0 &&
-                    emailPelangganEditText.length() == 0 &&
-                    passwordPelangganEditText.length() == 0 &&
-                    passwordConfirmPelangganEditText.length() == 0 &&
-                    teleponPelangganEditText.length() == 0 &&
-                    tanggalLahirPelangganEditText.length() == 0 &&
-                    provinsiPelangganEditText.length() == 0 &&
-                    kotaPelangganEditText.length() == 0 &&
-                    kecamatanPelangganEditText.length() == 0 &&
-                    kelurahanPelangganEditText.length() == 0 &&
-                    kodePosPelangganEditText.length() == 0
-                ) {
-                    namePelangganEditText.error = getString(R.string.required_field)
-                    nikPelangganEditText.error =  getString(R.string.required_field)
-                    jenisKelaminPelangganEditText.error =  getString(R.string.required_field)
-                    emailPelangganEditText.error = getString(R.string.required_field)
-                    passwordPelangganEditText.error = getString(R.string.required_field)
-                    passwordConfirmPelangganEditText.error = getString(R.string.required_field)
-                    teleponPelangganEditText.error= getString(R.string.required_field)
-                    tanggalLahirPelangganEditText.error =  getString(R.string.required_field)
-                    provinsiPelangganEditText.error =  getString(R.string.required_field)
-                    kotaPelangganEditText.error =  getString(R.string.required_field)
-                    kecamatanPelangganEditText.error =  getString(R.string.required_field)
-                    kelurahanPelangganEditText.error =  getString(R.string.required_field)
-                    kodePosPelangganEditText.error =  getString(R.string.required_field)
-                } else if (
-                    namePelangganEditText.length() != 0 &&
-                    nikPelangganEditText.length() != 0 &&
-                    jenisKelaminPelangganEditText.length() != 0 &&
-                    emailPelangganEditText.length() != 0 &&
-                    passwordPelangganEditText.length() != 0 &&
-                    passwordConfirmPelangganEditText.length() != 0 &&
-                    teleponPelangganEditText.length() != 0 &&
-                    tanggalLahirPelangganEditText.length() != 0 &&
-                    provinsiPelangganEditText.length() != 0 &&
-                    kotaPelangganEditText.length() != 0 &&
-                    kecamatanPelangganEditText.length() != 0 &&
-                    kelurahanPelangganEditText.length() != 0 &&
-                    kodePosPelangganEditText.length() != 0
-                ) {
-                    showLoading()
-                    postText()
-                    showToast()
-                    moveActivity()
-                }
-            }
+    private fun setupAction() {
+        binding.btnSimpanRegistPelanggan.setOnClickListener {
+            postText()
         }
     }
 
     private fun postText() {
-        val userType = intent.getStringExtra("userType")
+        val userType = intent.getStringExtra("userType") ?: "Pelanggan"
 
-        if (userType == "Pelanggan") {
-            binding.apply {
+        with(binding) {
+            if (validasiInput()) {
                 registerViewModel.registerPelanggan(
                     userType,
                     namePelangganEditText.text.toString(),
@@ -116,34 +59,102 @@ class RegistFirstSeekerActivity : AppCompatActivity() {
                     kelurahanPelangganEditText.text.toString(),
                     kodePosPelangganEditText.text.toString()
                 )
+
+                observeViewModel()
             }
         }
     }
 
-    private fun showLoading() {
-        registerViewModel.isLoading.observe(this@RegistFirstSeekerActivity) {
+    private fun validasiInput(): Boolean {
+        with(binding) {
+            var isValid = true
+
+            if (namePelangganEditText.text.toString().isEmpty()) {
+                namePelangganEditText.error = getString(R.string.required_field)
+                isValid = false
+            }
+
+            if (nikPelangganEditText.text.toString().isEmpty()) {
+                nikPelangganEditText.error = getString(R.string.required_field)
+                isValid = false
+            }
+
+            if (jenisKelaminPelangganEditText.text.toString().isEmpty()) {
+                jenisKelaminPelangganEditText.error = getString(R.string.required_field)
+                isValid = false
+            }
+
+            if (emailPelangganEditText.text.toString().isEmpty()) {
+                emailPelangganEditText.error = getString(R.string.required_field)
+                isValid = false
+            }
+
+            if (passwordPelangganEditText.text.toString().isEmpty()) {
+                passwordPelangganEditText.error = getString(R.string.required_field)
+                isValid = false
+            }
+
+            if (passwordConfirmPelangganEditText.text.toString().isEmpty()) {
+                passwordConfirmPelangganEditText.error = getString(R.string.required_field)
+                isValid = false
+            }
+
+            if (teleponPelangganEditText.text.toString().isEmpty()) {
+                teleponPelangganEditText.error = getString(R.string.required_field)
+                isValid = false
+            }
+
+            if (tanggalLahirPelangganEditText.text.toString().isEmpty()) {
+                tanggalLahirPelangganEditText.error = getString(R.string.required_field)
+                isValid = false
+            }
+
+            if (provinsiPelangganEditText.text.toString().isEmpty()) {
+                provinsiPelangganEditText.error = getString(R.string.required_field)
+                isValid = false
+            }
+
+            if (kotaPelangganEditText.text.toString().isEmpty()) {
+                kotaPelangganEditText.error = getString(R.string.required_field)
+                isValid = false
+            }
+
+            if (kecamatanPelangganEditText.text.toString().isEmpty()) {
+                kecamatanPelangganEditText.error = getString(R.string.required_field)
+                isValid = false
+            }
+
+            if (kelurahanPelangganEditText.text.toString().isEmpty()) {
+                kelurahanPelangganEditText.error = getString(R.string.required_field)
+                isValid = false
+            }
+
+            if (kodePosPelangganEditText.text.toString().isEmpty()) {
+                kodePosPelangganEditText.error = getString(R.string.required_field)
+                isValid = false
+            }
+
+            return isValid
+        }
+    }
+
+
+    private fun observeViewModel() {
+        registerViewModel.isLoading.observe(this) {
             binding.progressbarRegister2.visibility = if (it) View.VISIBLE else View.GONE
         }
-    }
 
-    private fun showToast() {
-        registerViewModel.toastText.observe(this@RegistFirstSeekerActivity) {
+        registerViewModel.toastText.observe(this) {
             it.getContentIfNotHandled()?.let { toastText ->
-                Toast.makeText(
-                    this@RegistFirstSeekerActivity, toastText, Toast.LENGTH_SHORT
-                ).show()
+                Toast.makeText(this, toastText, Toast.LENGTH_SHORT).show()
             }
         }
-    }
 
-    private fun moveActivity(){
-        registerViewModel.registerResponse.observe(this@RegistFirstSeekerActivity){ response ->
+        registerViewModel.registerResponse.observe(this) { response ->
             if (response.success == true){
-                startActivity(Intent(this@RegistFirstSeekerActivity, LoginActivity::class.java))
+                startActivity(Intent(this, LoginActivity::class.java))
                 finish()
             }
         }
     }
-
-
 }

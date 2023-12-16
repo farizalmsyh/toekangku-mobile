@@ -1,6 +1,7 @@
 package com.dicoding.toekangku1.retrofit
 
 import com.dicoding.toekangku1.data.Experience
+import com.dicoding.toekangku1.response.ForgotPasswordResponse
 import com.dicoding.toekangku1.response.LoginResponse
 import com.dicoding.toekangku1.response.RegisterResponse
 import com.dicoding.toekangku1.response.SubmitOTPResponse
@@ -53,6 +54,12 @@ interface ApiService {
         @Field("secret") secret: String,
         @Field("code") code: String
     ): Call<SubmitOTPResponse>
+
+    @FormUrlEncoded
+    @POST("/auth/forgot-password")
+    fun forgotPassword(
+        @Field("email") email: String
+    ) : Call<ForgotPasswordResponse>
 
     @FormUrlEncoded
     @POST("/auth/experience/create/")

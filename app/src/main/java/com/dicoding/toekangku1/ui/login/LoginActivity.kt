@@ -3,91 +3,87 @@ package com.dicoding.toekangku1.ui.login
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import com.dicoding.toekangku1.R
 import com.dicoding.toekangku1.databinding.ActivityLoginBinding
 import com.dicoding.toekangku1.ui.ViewModelFactory
+import com.dicoding.toekangku1.ui.register.PreRegistActivity
+import com.dicoding.toekangku1.ui.register.screen.screenseeker.RegistFirstSeekerActivity
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
-    private lateinit var factory: ViewModelFactory
-    private val loginViewModel: LoginViewModel by viewModels { factory }
+    private val loginViewModel: LoginViewModel by viewModels { ViewModelFactory.getInstance(this) }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        factory = ViewModelFactory.getInstance(applicationContext)
-
         setupView()
         setupAction()
-        setupViewModel()
-    }
-
-    private fun setupViewModel() {
-        factory = ViewModelFactory.getInstance(this)
     }
 
     private fun setupView() {
-        binding = ActivityLoginBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
         supportActionBar?.hide()
     }
 
     private fun setupAction() {
         binding.btnKirimLogin.setOnClickListener {
-            val email = binding.emailLoginEditText.text.toString()
-            val password = binding.passwordLoginEditText.text.toString()
-            if (email.isEmpty() || password.isEmpty()) {
-                if (email.isEmpty()) {
-                    binding.emailLoginEditText.error = getString(R.string.required_field)
-                }
-                if (password.isEmpty()) {
-                    binding.passwordLoginEditText.error = getString(R.string.required_field)
-                }
-            } else {
-                showLoading()
-                loginViewModel.postLogin(email, password)
-            }
+            performLogin()
         }
 
-        loginViewModel.loginResponse.observe(this@LoginActivity) { response ->
-            Log.d("nih bro", "Response: $response")
-            if (response != null) {
+        binding.daftardisini.setOnClickListener {
+            startActivity(Intent(this, PreRegistActivity::class.java))
+        }
+    }
 
-                Log.d("adagak", "Success: ${response.success}")
-                Log.d("cobalagi", "Message: ${response.message}")
-                Log.d("coba", "Email: ${response.data?.email}")
-                Log.d("cobbaa", "Secret: ${response.data?.secret}")
+    private fun performLogin() {
+        val email = binding.emailLoginEditText.text.toString()
+        val password = binding.passwordLoginEditText.text.toString()
 
-                if (response.success == true) {
-                    moveActivity(response.data?.email.orEmpty(), response.data?.secret.orEmpty())
-                }
+        if (validateLoginForm(email, password)) {
+            showLoading(true)
+            loginViewModel.postLogin(email, password)
+            observeViewModel()
+        }
+    }
+
+    private fun validateLoginForm(email: String, password: String): Boolean {
+        var isValid = true
+        if (email.isEmpty()) {
+            binding.emailLoginEditText.error = getString(R.string.required_field)
+            isValid = false
+        }
+        if (password.isEmpty()) {
+            binding.passwordLoginEditText.error = getString(R.string.required_field)
+            isValid = false
+        }
+        return isValid
+    }
+
+    private fun observeViewModel() {
+        loginViewModel.loginResponse.observe(this) { response ->
+            showLoading(false)
+            if (response != null && response.success == true) {
+                moveActivity(response.data?.email.orEmpty(), response.data?.secret.orEmpty())
             } else {
                 showToast()
             }
         }
     }
 
-    fun moveActivity(email: String, secret: String) {
-        startActivity(Intent(this@LoginActivity, GetOTPActivity::class.java).apply {
+    private fun moveActivity(email: String, secret: String) {
+        startActivity(Intent(this, GetOTPActivity::class.java).apply {
             putExtra("email", email)
             putExtra("secret", secret)
-
-            Log.d("secret", secret.toString())
         })
         finish()
     }
 
-
-    private fun showLoading() {
-        loginViewModel.isLoading.observe(this@LoginActivity) {
-            binding.progressbarLogin.visibility = if (it) View.VISIBLE else View.GONE
-        }
+    private fun showLoading(isLoading: Boolean) {
+        binding.progressbarLogin.visibility = if (isLoading) View.VISIBLE else View.GONE
     }
 
     private fun showToast() {
@@ -99,5 +95,4 @@ class LoginActivity : AppCompatActivity() {
             }
         }
     }
-
 }

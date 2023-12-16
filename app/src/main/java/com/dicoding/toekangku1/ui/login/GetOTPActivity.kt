@@ -21,56 +21,96 @@ class GetOTPActivity : AppCompatActivity() {
     private lateinit var factory: ViewModelFactory
     private lateinit var pinView: PinView
     private lateinit var btnKirimOTP: Button
-    private val getOtpViewModel: GetOTPViewModel by viewModels { factory }
+    private val getOtpViewModel: GetOTPViewModel by viewModels {
+        ViewModelFactory.getInstance(this)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityGetOtpactivityBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        pinView = findViewById(R.id.pinview)
-        btnKirimOTP = findViewById(R.id.btn_kirim_otp)
-
-        factory = ViewModelFactory.getInstance(applicationContext)
-
         setupView()
         setupAction()
-        setupViewModel()
     }
 
-    private fun setupViewModel() {
-        factory = ViewModelFactory.getInstance(this)
-    }
+//    private fun setupViewModel() {
+//        factory = ViewModelFactory.getInstance(this)
+//    }
 
     private fun setupView() {
-        binding = ActivityGetOtpactivityBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+//        binding = ActivityGetOtpactivityBinding.inflate(layoutInflater)
+//        setContentView(binding.root)
 
         supportActionBar?.hide()
+//        binding.btnKirimOtp.setOnClickListener {
+//            performOtpVerification()
+//        }
     }
 
-    private fun setupAction(){
-        btnKirimOTP.setOnClickListener {
-            val code: String = pinView.text.toString()
-            val email = intent.getStringExtra("email")
-            val secret = intent.getStringExtra("secret")
+    private fun setupAction() {
+        binding.btnKirimOtp.setOnClickListener {
+            performOtpVerification()
+        }
+    }
 
-            if (email.isNullOrBlank() || secret.isNullOrBlank()) {
+    private fun performOtpVerification() {
+        val code = binding.pinview.text.toString()
+        val email = intent.getStringExtra("email") ?: return
+        val secret = intent.getStringExtra("secret") ?: return
 
-            } else {
-                getOtpViewModel.postOtp(email!!, secret!!, code)
-                getOtpViewModel.otpResponse.observe(this@GetOTPActivity) { response ->
-                    getOtpViewModel.saveSession(
-                        token = String()
-                    )
+        if (code.isNotBlank()) {
+            getOtpViewModel.postOtp(email, secret, code)
+            observeViewModel()
+        } else {
+            showToast()
+        }
+    }
+
+    private fun observeViewModel() {
+        getOtpViewModel.otpResponse.observe(this) { response ->
+            if (response.success == true) {
+                response.data?.token?.let { token ->
+                    getOtpViewModel.saveSession(token)
+                    moveActivity()
                 }
+            } else {
                 showToast()
-                getOtpViewModel.submitOTP()
-                moveActivity()
             }
         }
     }
 
+    private fun moveActivity() {
+        startActivity(Intent(this, HomeActivity::class.java))
+        finish()
+    }
+
+//    private fun showToast(message: String) {
+//        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+//    }
+
+    //    private fun setupAction(){
+//        btnKirimOTP.setOnClickListener {
+//            val code: String = pinView.text.toString()
+//            val email = intent.getStringExtra("email")
+//            val secret = intent.getStringExtra("secret")
+//
+//            if (email.isNullOrBlank() || secret.isNullOrBlank()) {
+//
+//            } else {
+//                getOtpViewModel.postOtp(email!!, secret!!, code)
+//                getOtpViewModel.otpResponse.observe(this@GetOTPActivity) { response ->
+//                    getOtpViewModel.saveSession(
+//                        token = String()
+//                    )
+//                }
+//                showToast()
+//                getOtpViewModel.submitOTP()
+//                moveActivity()
+//            }
+//        }
+//    }
+//
     private fun showToast() {
         getOtpViewModel.toastText.observe(this@GetOTPActivity) {
             it.getContentIfNotHandled()?.let { toastText ->
@@ -80,13 +120,13 @@ class GetOTPActivity : AppCompatActivity() {
             }
         }
     }
-
-    private fun moveActivity() {
-        getOtpViewModel.otpResponse.observe(this@GetOTPActivity) { response ->
-            if (response.success == true) {
-                startActivity(Intent(this@GetOTPActivity, HomeActivity::class.java))
-                finish()
-            }
-        }
-    }
+//
+//    private fun moveActivity() {
+//        getOtpViewModel.otpResponse.observe(this@GetOTPActivity) { response ->
+//            if (response.success == true) {
+//                startActivity(Intent(this@GetOTPActivity, HomeActivity::class.java))
+//                finish()
+//            }
+//        }
+//    }
 }
