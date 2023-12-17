@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.home.HomeActivity">
+    tools:context=".ui.home.HomeWorkerActivity">
 
     <ScrollView
         android:id="@+id/scrollView2"
@@ -59,7 +59,7 @@
                 app:layout_constraintVertical_bias="0.0" />
 
             <TextView
-                android:id="@+id/recommendedWorkersLabel"
+                android:id="@+id/terkaitWorkersLabel"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
@@ -73,42 +73,15 @@
                 app:layout_constraintEnd_toEndOf="parent"/>
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recommendedWorkersRecyclerView"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/recommendedWorkersLabel"
-                tools:itemCount="3"
-                tools:listitem="@layout/item_worker" />
-
-            <TextView
-                android:id="@+id/terkaitWorkersLabel"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_marginStart="16dp"
-                android:fontFamily="@font/plus_jakarta_sans"
-                android:textStyle="bold"
-                android:textSize="16dp"
-                android:text="Rekomendasi Pekerja"
-                app:layout_constraintTop_toBottomOf="@id/recommendedWorkersRecyclerView"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
-
-            <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/relatedPostsRecyclerView"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                tools:itemCount="5"
                 app:layout_constraintTop_toBottomOf="@id/terkaitWorkersLabel"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 tools:listitem="@layout/item_related"/>
-
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
@@ -122,6 +95,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:background="?android:attr/windowBackground"
         app:menu="@menu/bottom_navigation_menu" />
+
 
 
 

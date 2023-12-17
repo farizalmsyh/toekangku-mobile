@@ -10,7 +10,7 @@ import com.dicoding.toekangku1.ui.login.LoginViewModel
 import com.dicoding.toekangku1.ui.register.RegisterViewModel
 import com.dicoding.toekangku1.ui.register.screen.screenworker.RegisterFirstWorkerActivity
 
-class ViewModelFactory (private val repository: UserRepository): ViewModelProvider.NewInstanceFactory(){
+class ViewModelFactory (private val repository: UserRepository, private val context: Context): ViewModelProvider.NewInstanceFactory(){
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         return when {
@@ -24,7 +24,7 @@ class ViewModelFactory (private val repository: UserRepository): ViewModelProvid
             }
 
             modelClass.isAssignableFrom(GetOTPViewModel::class.java) -> {
-                GetOTPViewModel(repository) as T
+                GetOTPViewModel(repository, context) as T
             }
 
             else -> throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
@@ -34,14 +34,14 @@ class ViewModelFactory (private val repository: UserRepository): ViewModelProvid
     companion object {
         @Volatile
         private var INSTANCE: ViewModelFactory? = null
+
         @JvmStatic
         fun getInstance(context: Context): ViewModelFactory {
-            if (INSTANCE == null) {
-                synchronized(ViewModelFactory::class.java) {
-                    INSTANCE = ViewModelFactory(Injection.provideRepository(context))
+            return INSTANCE ?: synchronized(this) {
+                INSTANCE ?: ViewModelFactory(Injection.provideRepository(context), context).also {
+                    INSTANCE = it
                 }
             }
-            return INSTANCE as ViewModelFactory
         }
     }
 }

@@ -18,7 +18,7 @@ import retrofit2.http.Part
 interface ApiService {
 
     @FormUrlEncoded
-    @POST("/auth/register/")
+    @POST("/v1/mobile/auth/register/")
     fun register(
         @Field("tipe_pengguna") tipePengguna: String,
         @Field("nama") nama: String,
@@ -39,24 +39,23 @@ interface ApiService {
         @Field("experiences") pengalaman: Array<Experience>
     ): Call<RegisterResponse>
 
-
     @FormUrlEncoded
-    @POST("/auth/login")
+    @POST("/v1/mobile/auth/login")
     fun login(
         @Field("email") email: String,
         @Field("password") password: String
     ): Call<LoginResponse>
 
     @FormUrlEncoded
-    @POST("/auth/submit-otp/")
+    @POST("/v1/mobile/auth/submit-otp/")
     fun submitOTP(
         @Field("email") email: String,
         @Field("secret") secret: String,
-        @Field("code") code: String
+        @Field("kode") code: Int
     ): Call<SubmitOTPResponse>
 
     @FormUrlEncoded
-    @POST("/auth/forgot-password")
+    @POST("v1/mobile/auth/forgot-password")
     fun forgotPassword(
         @Field("email") email: String
     ) : Call<ForgotPasswordResponse>

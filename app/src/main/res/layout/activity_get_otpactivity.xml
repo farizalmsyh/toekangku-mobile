@@ -46,7 +46,7 @@
         android:inputType="number"
         android:itemBackground="@color/white"
         app:hideLineWhenFilled="false"
-        app:itemCount="4"
+        app:itemCount="6"
         app:itemHeight="50dp"
         app:itemRadius="20dp"
         app:itemWidth="50dp"

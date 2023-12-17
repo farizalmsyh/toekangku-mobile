@@ -230,7 +230,7 @@ class UserRepository private constructor(
         })
     }
 
-    fun postOTP(email: String, secret: String, code: String) {
+    fun postOTP(email: String, secret: String, code: Int) {
         _isLoading.value = true
         val client = apiService.submitOTP(email, secret, code)
 

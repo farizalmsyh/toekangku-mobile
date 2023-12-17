@@ -10,7 +10,6 @@ import com.dicoding.toekangku1.R
 import com.dicoding.toekangku1.databinding.ActivityLoginBinding
 import com.dicoding.toekangku1.ui.ViewModelFactory
 import com.dicoding.toekangku1.ui.register.PreRegistActivity
-import com.dicoding.toekangku1.ui.register.screen.screenseeker.RegistFirstSeekerActivity
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
