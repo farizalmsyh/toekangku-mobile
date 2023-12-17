@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.dicoding.toekangku1.UserRepository
 import com.dicoding.toekangku1.data.Injection
+import com.dicoding.toekangku1.ui.home.HomeViewModel
 import com.dicoding.toekangku1.ui.login.GetOTPViewModel
 import com.dicoding.toekangku1.ui.login.LoginViewModel
 import com.dicoding.toekangku1.ui.login.VerifyForgotPasswordViewModel
@@ -17,6 +18,10 @@ class ViewModelFactory (private val repository: UserRepository, private val cont
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         return when {
+
+            modelClass.isAssignableFrom(HomeViewModel::class.java) -> {
+                HomeViewModel(repository, context) as T
+            }
 
             modelClass.isAssignableFrom(RegisterViewModel::class.java) -> {
                 RegisterViewModel(repository) as T

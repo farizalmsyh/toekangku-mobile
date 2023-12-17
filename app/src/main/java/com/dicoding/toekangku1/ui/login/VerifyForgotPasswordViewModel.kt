@@ -5,7 +5,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.dicoding.toekangku1.UserRepository
-import com.dicoding.toekangku1.response.SubmitOTPResponse
 import com.dicoding.toekangku1.response.SubmitResetOTPResponse
 
 class VerifyForgotPasswordViewModel(

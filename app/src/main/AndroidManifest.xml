@@ -36,16 +36,13 @@
         android:theme="@style/Theme.ToekangKu1"
         tools:targetApi="31">
         <activity
-            android:name=".ui.login.forgot_password.OTPResetPassword"
+            android:name=".ui.chat.ChatDetailActivity"
             android:exported="false" />
         <activity
             android:name=".ui.home.detail.DetailWorkerActivity"
             android:exported="false" />
         <activity
             android:name=".ui.home.HomeWorkerActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ui.register.VerifyEmailActivity"
             android:exported="false" />
         <activity
             android:name=".ui.profile.AboutUsActivity"
@@ -61,18 +58,6 @@
             android:exported="false" />
         <activity
             android:name=".ui.login.GetOTPActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ui.register.screen.screenworker.RegistThirdWorkerActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ui.register.screen.screenworker.RegistSecondWorkerActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ui.register.screen.screenworker.RegistFirstWorkerActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ui.register.screen.screenseeker.RegistSecondSeekerActivity"
             android:exported="false" />
         <activity
             android:name=".ui.register.screen.screenseeker.RegistFirstSeekerActivity"

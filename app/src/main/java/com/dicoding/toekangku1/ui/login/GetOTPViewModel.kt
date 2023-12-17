@@ -28,6 +28,7 @@ class GetOTPViewModel(
         repository.postOTP(email, secret, code)
 
         repository.submitOTPResponse.observeForever { response ->
+            _otpResponse.value = response
             _isLoading.value = false
             response?.let {
                 if (it.success == true) {

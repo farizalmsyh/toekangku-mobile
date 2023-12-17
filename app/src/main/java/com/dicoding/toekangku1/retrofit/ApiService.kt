@@ -61,6 +61,13 @@ interface ApiService {
     ) : Call<ForgotPasswordResponse>
 
     @FormUrlEncoded
+    @POST("v1/mobile/auth/submit-reset-code")
+    fun submitReset(
+        @Field("kode") code: Int,
+        @Field("secret") secret: String,
+        @Field("email") email: String
+    )
+    @FormUrlEncoded
     @POST("/auth/experience/create/")
     fun createExperience(
         @Field("name") name: String,
