@@ -9,6 +9,7 @@ import androidx.activity.viewModels
 import com.dicoding.toekangku1.R
 import com.dicoding.toekangku1.databinding.ActivityLoginBinding
 import com.dicoding.toekangku1.ui.ViewModelFactory
+import com.dicoding.toekangku1.ui.login.forgot_password.ForgotPasswordActivity
 import com.dicoding.toekangku1.ui.register.PreRegistActivity
 
 class LoginActivity : AppCompatActivity() {
@@ -35,6 +36,10 @@ class LoginActivity : AppCompatActivity() {
 
         binding.daftardisini.setOnClickListener {
             startActivity(Intent(this, PreRegistActivity::class.java))
+        }
+
+        binding.lupaPasswordLogin.setOnClickListener{
+            startActivity(Intent(this, ForgotPasswordActivity::class.java))
         }
     }
 

@@ -7,6 +7,9 @@ import com.dicoding.toekangku1.UserRepository
 import com.dicoding.toekangku1.data.Injection
 import com.dicoding.toekangku1.ui.login.GetOTPViewModel
 import com.dicoding.toekangku1.ui.login.LoginViewModel
+import com.dicoding.toekangku1.ui.login.VerifyForgotPasswordViewModel
+import com.dicoding.toekangku1.ui.login.forgot_password.ForgotPasswordViewModel
+import com.dicoding.toekangku1.ui.login.forgot_password.ResetPasswordViewModel
 import com.dicoding.toekangku1.ui.register.RegisterViewModel
 import com.dicoding.toekangku1.ui.register.screen.screenworker.RegisterFirstWorkerActivity
 
@@ -25,6 +28,18 @@ class ViewModelFactory (private val repository: UserRepository, private val cont
 
             modelClass.isAssignableFrom(GetOTPViewModel::class.java) -> {
                 GetOTPViewModel(repository, context) as T
+            }
+
+            modelClass.isAssignableFrom(ForgotPasswordViewModel::class.java) -> {
+                ForgotPasswordViewModel(repository) as T
+            }
+
+            modelClass.isAssignableFrom(VerifyForgotPasswordViewModel::class.java) -> {
+                VerifyForgotPasswordViewModel(repository, context) as T
+            }
+
+            modelClass.isAssignableFrom(ResetPasswordViewModel::class.java) -> {
+                ResetPasswordViewModel(repository) as T
             }
 
             else -> throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)

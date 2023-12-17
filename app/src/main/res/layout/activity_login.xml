@@ -141,7 +141,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
-            android:id="@+id/textView5"
+            android:id="@+id/lupaPasswordLogin"
             android:layout_width="wrap_content"
             android:layout_height="17dp"
             android:layout_marginEnd="16dp"
