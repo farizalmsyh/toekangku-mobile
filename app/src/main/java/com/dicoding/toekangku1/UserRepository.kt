@@ -13,7 +13,9 @@ import com.dicoding.toekangku1.data.UserPreference
 import com.dicoding.toekangku1.response.ForgotPasswordResponse
 import com.dicoding.toekangku1.response.LoginResponse
 import com.dicoding.toekangku1.response.RegisterResponse
+import com.dicoding.toekangku1.response.ResetPasswordResponse
 import com.dicoding.toekangku1.response.SubmitOTPResponse
+import com.dicoding.toekangku1.response.SubmitResetOTPResponse
 import com.dicoding.toekangku1.retrofit.ApiService
 import com.dicoding.toekangku1.ui.Event
 import okhttp3.MultipartBody
@@ -37,6 +39,12 @@ class UserRepository private constructor(
 
     private val _submitOTPResponse = MutableLiveData<SubmitOTPResponse>()
     val submitOTPResponse: LiveData<SubmitOTPResponse> = _submitOTPResponse
+
+    private val _submitResetOTPResponse = MutableLiveData<SubmitResetOTPResponse>()
+    val submitResetOTPResponse: LiveData<SubmitResetOTPResponse> = _submitResetOTPResponse
+
+    private val _resetPasswordResponse = MutableLiveData<ResetPasswordResponse>()
+    val resetPasswordResponse: LiveData<ResetPasswordResponse> = _resetPasswordResponse
 
     private val _forgotPassword = MutableLiveData<ForgotPasswordResponse>()
     val forgotPassword: LiveData<ForgotPasswordResponse> = _forgotPassword
@@ -342,6 +350,117 @@ class UserRepository private constructor(
         })
     }
 
+    fun postResetOTP(code: Int, secret: String, email: String){
+        _isLoading.value = true
+        val client = apiService.submitReset(code, secret, email)
+
+        client.enqueue(object: Callback<SubmitResetOTPResponse> {
+            override fun onResponse(
+                call: Call<SubmitResetOTPResponse>,
+                response: Response<SubmitResetOTPResponse>
+            ) {
+                try {
+                    _isLoading.value=false
+                    if (response.isSuccessful && response.body() != null){
+                        _submitResetOTPResponse.value = response.body()
+                        _toastText.value = Event(response.body()?.message.toString())
+
+                    } else {
+                        val jsonObject = response.errorBody().toString()?.let { JSONObject(it) }
+                        val error = jsonObject?.getBoolean("error")
+                        val message = jsonObject?.getString("message")
+                        _submitResetOTPResponse.value = SubmitResetOTPResponse(null, error, message)
+                        _toastText.value = Event(
+                            "${response.message()} ${response.code()}, $message"
+
+                        )
+                        Log.e(
+                            "postLogin",
+                            "onResponse: ${response.message()}, ${response.code()} $message"
+                        )
+                    }
+                } catch (e: JSONException){
+                    _toastText.value = Event(e.message.toString())
+                    Log.e("JSONException", "onResponse: ${e.message.toString()}")
+                } catch (e: Exception){
+                    _toastText.value = Event(e.message.toString())
+                    Log.e("Exception", "onResponse: ${e.message.toString()}")
+                }
+            }
+
+            override fun onFailure(call: Call<SubmitResetOTPResponse>, t: Throwable) {
+                _isLoading.value=false
+                when(t){
+                    is UnknownHostException -> {
+                        _toastText.value = Event("No Internet Connection")
+                        Log.e("UnknownHostException", "onFailure: ${t.message.toString()}")
+                    }
+
+                    else -> {
+                        _toastText.value = Event(t.message.toString())
+                        Log.e("postLogin", "onFailure: ${t.message.toString()}")
+                    }
+                }
+            }
+
+        })
+    }
+
+    fun resetPassword(email: String, secret: String, code: Int, newPassword: String, confirmNewPassword: String){
+        _isLoading.value = true
+        val client = apiService.resetPassword(email, secret, code, newPassword, confirmNewPassword)
+
+        client.enqueue(object: Callback<ResetPasswordResponse> {
+            override fun onResponse(
+                call: Call<ResetPasswordResponse>,
+                response: Response<ResetPasswordResponse>
+            ) {
+                try {
+                    _isLoading.value=false
+                    if (response.isSuccessful && response.body() != null){
+                        _resetPasswordResponse.value = response.body()
+                        _toastText.value = Event(response.body()?.message.toString())
+
+                    } else {
+                        val jsonObject = response.errorBody().toString()?.let { JSONObject(it) }
+                        val error = jsonObject?.getBoolean("error")
+                        val message = jsonObject?.getString("message")
+//                        _resetPasswordResponse.value = ResetPasswordResponse(null, error, message)
+                        _toastText.value = Event(
+                            "${response.message()} ${response.code()}, $message"
+
+                        )
+                        Log.e(
+                            "postLogin",
+                            "onResponse: ${response.message()}, ${response.code()} $message"
+                        )
+                    }
+                } catch (e: JSONException){
+                    _toastText.value = Event(e.message.toString())
+                    Log.e("JSONException", "onResponse: ${e.message.toString()}")
+                } catch (e: Exception){
+                    _toastText.value = Event(e.message.toString())
+                    Log.e("Exception", "onResponse: ${e.message.toString()}")
+                }
+            }
+
+            override fun onFailure(call: Call<ResetPasswordResponse>, t: Throwable) {
+                _isLoading.value=false
+                when(t){
+                    is UnknownHostException -> {
+                        _toastText.value = Event("No Internet Connection")
+                        Log.e("UnknownHostException", "onFailure: ${t.message.toString()}")
+                    }
+
+                    else -> {
+                        _toastText.value = Event(t.message.toString())
+                        Log.e("postLogin", "onFailure: ${t.message.toString()}")
+                    }
+                }
+            }
+
+        })
+    }
 //    suspend fun saveSession(user: User) {
 //        userPreference.saveSession(user)
 //    }

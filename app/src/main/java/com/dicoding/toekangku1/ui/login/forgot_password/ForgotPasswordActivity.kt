@@ -9,7 +9,6 @@ import androidx.activity.viewModels
 import com.dicoding.toekangku1.R
 import com.dicoding.toekangku1.databinding.ActivityForgotPasswordBinding
 import com.dicoding.toekangku1.ui.ViewModelFactory
-import com.dicoding.toekangku1.ui.login.VerifyForgotPassword
 
 class ForgotPasswordActivity : AppCompatActivity() {
 

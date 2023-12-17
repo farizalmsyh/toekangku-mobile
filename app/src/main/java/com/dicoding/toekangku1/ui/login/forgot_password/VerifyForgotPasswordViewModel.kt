@@ -1,4 +1,4 @@
-package com.dicoding.toekangku1.ui.login
+package com.dicoding.toekangku1.ui.login.forgot_password
 
 import android.content.Context
 import androidx.lifecycle.LiveData
@@ -12,8 +12,8 @@ class VerifyForgotPasswordViewModel(
     private val context: Context
 ): ViewModel() {
 
-    private val _otpResponse = MutableLiveData<SubmitResetOTPResponse>()
-    val otpResponse: LiveData<SubmitResetOTPResponse> = _otpResponse
+    private val _submitResetOTPResponse = MutableLiveData<SubmitResetOTPResponse>()
+    val submitResetOTPResponse: LiveData<SubmitResetOTPResponse> = _submitResetOTPResponse
 
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
@@ -21,24 +21,21 @@ class VerifyForgotPasswordViewModel(
     private val _toastText = MutableLiveData<String>()
     val toastText: LiveData<String> = _toastText
 
-    fun postOtp(email: String, secret: String, code: Int) {
+    fun postResetOtp(code: Int, secret: String, email: String) {
         _isLoading.value = true
-        repository.postOTP(email, secret, code)
+        repository.postResetOTP(code, secret, email)
 
-        repository.submitOTPResponse.observeForever { response ->
+        repository.submitResetOTPResponse.observeForever { response ->
+            _submitResetOTPResponse.value = response
             _isLoading.value = false
             response?.let {
                 if (it.success == true) {
-                    it.data?.token?.let { token ->
-                        _toastText.value = "OTP Verified Successfully"
-                    } ?: run {
-                        _toastText.value = "Token is null"
-                    }
+                    _toastText.value = "Reset OTP sent successfully."
                 } else {
-                    _toastText.value = it.message ?: "Failed to verify OTP"
+                    _toastText.value = it.message ?: "Failed to send reset OTP."
                 }
             } ?: run {
-                _toastText.value = "No response from server"
+                _toastText.value = "No response from server."
             }
         }
     }

@@ -8,11 +8,10 @@ import com.dicoding.toekangku1.data.Injection
 import com.dicoding.toekangku1.ui.home.HomeViewModel
 import com.dicoding.toekangku1.ui.login.GetOTPViewModel
 import com.dicoding.toekangku1.ui.login.LoginViewModel
-import com.dicoding.toekangku1.ui.login.VerifyForgotPasswordViewModel
+import com.dicoding.toekangku1.ui.login.forgot_password.VerifyForgotPasswordViewModel
 import com.dicoding.toekangku1.ui.login.forgot_password.ForgotPasswordViewModel
 import com.dicoding.toekangku1.ui.login.forgot_password.ResetPasswordViewModel
 import com.dicoding.toekangku1.ui.register.RegisterViewModel
-import com.dicoding.toekangku1.ui.register.screen.screenworker.RegisterFirstWorkerActivity
 
 class ViewModelFactory (private val repository: UserRepository, private val context: Context): ViewModelProvider.NewInstanceFactory(){
     @Suppress("UNCHECKED_CAST")

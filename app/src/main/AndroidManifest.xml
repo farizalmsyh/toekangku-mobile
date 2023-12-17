@@ -54,7 +54,7 @@
             android:name=".ui.profile.ChangePasswordActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.login.VerifyForgotPassword"
+            android:name=".ui.login.forgot_password.VerifyForgotPassword"
             android:exported="false" />
         <activity
             android:name=".ui.login.GetOTPActivity"

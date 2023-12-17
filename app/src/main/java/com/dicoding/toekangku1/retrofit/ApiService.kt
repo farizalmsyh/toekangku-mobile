@@ -4,7 +4,9 @@ import com.dicoding.toekangku1.data.Experience
 import com.dicoding.toekangku1.response.ForgotPasswordResponse
 import com.dicoding.toekangku1.response.LoginResponse
 import com.dicoding.toekangku1.response.RegisterResponse
+import com.dicoding.toekangku1.response.ResetPasswordResponse
 import com.dicoding.toekangku1.response.SubmitOTPResponse
+import com.dicoding.toekangku1.response.SubmitResetOTPResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Call
@@ -55,18 +57,28 @@ interface ApiService {
     ): Call<SubmitOTPResponse>
 
     @FormUrlEncoded
-    @POST("v1/mobile/auth/forgot-password")
+    @POST("/v1/mobile/auth/forgot-password")
     fun forgotPassword(
         @Field("email") email: String
     ) : Call<ForgotPasswordResponse>
 
     @FormUrlEncoded
-    @POST("v1/mobile/auth/submit-reset-code")
+    @POST("/v1/mobile/auth/submit-reset-code")
     fun submitReset(
         @Field("kode") code: Int,
         @Field("secret") secret: String,
         @Field("email") email: String
-    )
+    ) : Call<SubmitResetOTPResponse>
+
+    @FormUrlEncoded
+    @POST("/v1/mobile/auth/reset-password")
+    fun  resetPassword(
+        @Field("email") email: String,
+        @Field("secret") secret: String,
+        @Field("kode") code: Int,
+        @Field("password") password: String,
+        @Field("password_confirmation") konfirmasi: String
+    ) : Call<ResetPasswordResponse>
     @FormUrlEncoded
     @POST("/auth/experience/create/")
     fun createExperience(

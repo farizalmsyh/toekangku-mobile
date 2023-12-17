@@ -1,4 +1,4 @@
-package com.dicoding.toekangku1.ui.login
+package com.dicoding.toekangku1.ui.login.forgot_password
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -9,13 +9,11 @@ import androidx.activity.viewModels
 import com.chaos.view.PinView
 import com.dicoding.toekangku1.R
 import com.dicoding.toekangku1.ui.ViewModelFactory
-import com.dicoding.toekangku1.ui.home.HomeActivity
-import com.dicoding.toekangku1.ui.login.forgot_password.ResetPasswordActivity
 
 class VerifyForgotPassword : AppCompatActivity() {
     private lateinit var pinView: PinView
     private lateinit var btnKirimOTP: Button
-    private val getOtpViewModel: GetOTPViewModel by viewModels { ViewModelFactory.getInstance(this) }
+    private val verifyForgotPasswordViewModel: VerifyForgotPasswordViewModel by viewModels { ViewModelFactory.getInstance(this) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,7 +34,7 @@ class VerifyForgotPassword : AppCompatActivity() {
 
             if (codeString.isNotBlank() && codeString.matches(Regex("\\d+"))) {
                 val code = codeString.toInt()
-                getOtpViewModel.postOtp(email, secret, code)
+                verifyForgotPasswordViewModel.postResetOtp(code, secret, email)
             } else {
                 Toast.makeText(this, "Invalid OTP Code", Toast.LENGTH_SHORT).show()
             }
@@ -44,23 +42,27 @@ class VerifyForgotPassword : AppCompatActivity() {
     }
 
     private fun observeViewModel() {
-        getOtpViewModel.otpResponse.observe(this) { response ->
+        verifyForgotPasswordViewModel.submitResetOTPResponse.observe(this) { response ->
             response?.let {
                 if (it.success == true) {
-                    navigateToNext()
+                    navigateToNext(response.data?.email.orEmpty(), response.data?.secret.orEmpty(), response.data?.code.orEmpty())
                 } else {
                     Toast.makeText(this, "Failed to verify OTP: ${it.message}", Toast.LENGTH_SHORT).show()
                 }
             }
         }
 
-        getOtpViewModel.toastText.observe(this) { message ->
+        verifyForgotPasswordViewModel.toastText.observe(this) { message ->
             Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
         }
     }
 
-    private fun navigateToNext() {
-        startActivity(Intent(this, ResetPasswordActivity::class.java))
+    private fun navigateToNext(email: String, secret: String, code: String) {
+        startActivity(Intent(this, ResetPasswordActivity::class.java).apply {
+            putExtra("email", email)
+            putExtra("secret", secret)
+            putExtra("kode", code)
+        })
         finish()
     }
 }
