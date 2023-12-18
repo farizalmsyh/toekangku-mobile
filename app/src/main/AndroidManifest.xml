@@ -36,6 +36,48 @@
         android:theme="@style/Theme.ToekangKu1"
         tools:targetApi="31">
         <activity
+            android:name=".ui.thread.mythreadsworker.NewPostWorker"
+            android:exported="false" />
+        <activity
+            android:name=".ui.thread.mythreadsworker.MyDetailThreadsWorker"
+            android:exported="false" />
+        <activity
+            android:name=".ui.thread.detail.DetailPostWorker"
+            android:exported="false" />
+        <activity
+            android:name=".ui.thread.ThreadWorkerActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.thread.mythreadsworker.MyThreadsWorker"
+            android:exported="false" />
+        <activity
+            android:name=".ui.thread.mythreadsseeker.NewPostActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.thread.mythreadsseeker.MyDetailThreadsSeeker"
+            android:exported="false" />
+        <activity
+            android:name=".ui.thread.mythreadsseeker.MyThreadsSeekerActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.thread.detail.apply.ApplyThreadsWorker"
+            android:exported="false" />
+        <activity
+            android:name=".ui.thread.detail.apply.ApplyThreadsSeeker"
+            android:exported="false" />
+        <activity
+            android:name=".ui.thread.detail.DetailPostActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.home.listworker.ListWorkerActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.home.offeringJob.WorkerJobOfferActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.home.detail.DetailSeekerActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.chat.ChatDetailActivity"
             android:exported="false" />
         <activity
@@ -81,7 +123,7 @@
             android:name=".ui.login.LoginActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.thread.ThreadActivity"
+            android:name=".ui.thread.ThreadSeekerActivity"
             android:exported="false" />
         <activity
             android:name=".ui.chat.ChatActivity"
@@ -90,7 +132,7 @@
             android:name=".ui.profile.ProfileActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.home.HomeActivity"
+            android:name=".ui.home.HomeSeekerActivity"
             android:exported="false" />
         <activity
             android:name=".ui.MainActivity"

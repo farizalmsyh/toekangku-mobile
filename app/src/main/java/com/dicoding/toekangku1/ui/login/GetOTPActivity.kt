@@ -9,7 +9,7 @@ import androidx.activity.viewModels
 import com.chaos.view.PinView
 import com.dicoding.toekangku1.R
 import com.dicoding.toekangku1.ui.ViewModelFactory
-import com.dicoding.toekangku1.ui.home.HomeActivity
+import com.dicoding.toekangku1.ui.home.HomeSeekerActivity
 
 class GetOTPActivity : AppCompatActivity() {
 
@@ -60,7 +60,7 @@ class GetOTPActivity : AppCompatActivity() {
     }
 
     private fun navigateToHome() {
-        startActivity(Intent(this, HomeActivity::class.java))
+        startActivity(Intent(this, HomeSeekerActivity::class.java))
         finish()
     }
 }

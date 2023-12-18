@@ -4,9 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.home.HomeActivity">
+    tools:context=".ui.home.HomeSeekerActivity">
 
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:id="@+id/scrollView2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -19,34 +19,47 @@
             <LinearLayout
                 android:id="@+id/topBar"
                 android:layout_width="0dp"
-                android:layout_height="?attr/actionBarSize"
+                android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:paddingStart="16dp"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:paddingStart="12dp"
                 android:paddingEnd="16dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
-                <!-- Teks Lokasi Pengguna -->
-
-                <!-- Gambar Profil Pengguna -->
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="start"
-                    android:text="Ciputat, Tangerang Selatan\nBang Satria"
-                    tools:ignore="MissingConstraints" />
-
                 <ImageView
-                    android:layout_width="108dp"
-                    android:layout_height="104dp"
-                    android:layout_marginBottom="572dp"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
                     android:background="@drawable/circle_background"
                     android:clipToOutline="true"
-                    android:src="@drawable/ic_icon" />
+                    tools:src="@drawable/ic_icon" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/lokasi_pengguna"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="start"
+                        tools:text="Ciputat, Tangerang Selatan"
+                        tools:ignore="MissingConstraints" />
+
+                    <TextView
+                        android:id="@+id/nama_pengguna"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="start"
+                        tools:text="Bang Satria"
+                        tools:ignore="MissingConstraints" />
+
+                </LinearLayout>
+
             </LinearLayout>
             <com.google.android.material.search.SearchBar
                 android:id="@+id/searchView"
@@ -70,6 +83,20 @@
                 android:text="Rekomendasi Pekerja"
                 app:layout_constraintTop_toBottomOf="@id/searchView"
                 app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+            <TextView
+                android:id="@+id/selengkapnyaLabel"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginStart="16dp"
+                android:fontFamily="@font/plus_jakarta_sans"
+                android:textStyle="bold"
+                android:textColor="@color/yellow1"
+                android:textSize="16dp"
+                android:text="Selengkapnya"
+                app:layout_constraintTop_toBottomOf="@id/searchView"
                 app:layout_constraintEnd_toEndOf="parent"/>
 
             <androidx.recyclerview.widget.RecyclerView
@@ -111,7 +138,7 @@
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"

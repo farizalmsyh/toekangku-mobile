@@ -52,21 +52,22 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="8dp"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/containers"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar">
 
         <ImageView
             android:id="@+id/profileImage"
             android:layout_width="90dp"
             android:layout_height="90dp"
-            android:src="@drawable/ic_icon"
             android:layout_marginStart="16dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:contentDescription="profile"
+            android:background="@drawable/circle_background"
             android:clipToOutline="true"
-            android:background="@drawable/circle_background"/>
+            android:contentDescription="profile"
+            android:src="@drawable/ic_icon"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <LinearLayout
             android:id="@+id/profileDetailsLayout"
@@ -135,8 +136,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:src="@drawable/ic_loc"
             android:paddingStart="20dp"
+            android:src="@drawable/ic_loc"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/profileLocation"
             app:layout_constraintStart_toStartOf="parent"
@@ -158,7 +159,7 @@
             app:layout_constraintStart_toEndOf="@+id/ic_loc" />
 
         <ImageView
-            android:id="@+id/imageView"
+            android:id="@+id/edit_profile"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="107dp"
@@ -167,8 +168,8 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/profileDetailsLayout"
             app:srcCompat="@drawable/ic_edit"
-            tools:layout_editor_absoluteY="16dp"
-            tools:ignore="MissingConstraints" />
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteY="16dp" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -184,8 +185,7 @@
         app:layout_constraintBottom_toTopOf="@+id/bottom_navigation"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/profileLayout">
+        app:layout_constraintStart_toStartOf="parent">
 
         <TextView
             android:id="@+id/tv_title_pengaturan"
@@ -277,7 +277,7 @@
             android:textStyle="bold" />
 
         <Button
-            android:id="@+id/btn_simpan"
+            android:id="@+id/btn_keluar"
             android:layout_width="390dp"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_tentang_kami"
@@ -292,7 +292,7 @@
             android:paddingTop="8dp"
             android:paddingEnd="16dp"
             android:paddingBottom="8dp"
-            android:text="Simpan"
+            android:text="Keluar"
             android:textColor="#FFFFFF"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
@@ -306,11 +306,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:layout_marginTop="651dp"
         android:background="@color/white"
         app:itemIconTint="@color/selector"
         app:itemTextColor="@color/selector"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/toolbar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:menu="@menu/bottom_navigation_menu" />
 </androidx.constraintlayout.widget.ConstraintLayout>

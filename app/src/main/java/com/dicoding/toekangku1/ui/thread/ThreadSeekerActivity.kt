@@ -1,17 +1,13 @@
 package com.dicoding.toekangku1.ui.thread
 
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.dicoding.toekangku1.R
-import com.dicoding.toekangku1.ui.home.HomeActivity
-import com.dicoding.toekangku1.ui.profile.ProfileActivity
-import com.google.android.material.bottomnavigation.BottomNavigationView
 
-class ThreadActivity : AppCompatActivity() {
+class ThreadSeekerActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_thread)
+        setContentView(R.layout.activity_thread_seeker)
 
 //        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_navigation)
         //bottomNavigationView.selectedItemId = R.id.menu_postingan
@@ -38,6 +34,10 @@ class ThreadActivity : AppCompatActivity() {
 //                else -> false
 //            }
 //        }
+
+    }
+
+    private fun setupAction(){
 
     }
 }

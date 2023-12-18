@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingTop="12dp"
+    android:paddingBottom="12dp"
+    android:paddingStart="16dp">
+
+    <TextView
+        android:id="@+id/postTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Dicari BabySitter, Teknisi" />
+
+    <ImageView
+        android:id="@+id/imageViewname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_user"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/postTitle" />
+
+    <TextView
+        android:id="@+id/namePrice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        app:layout_constraintStart_toEndOf="@+id/imageViewname"
+        app:layout_constraintTop_toBottomOf="@+id/postTitle"
+        tools:text="Elisa Bunga (4.5)" />
+
+    <ImageView
+        android:id="@+id/imageViewprice"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginTop="24dp"
+        android:src="@drawable/ic_pay"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/postTitle" />
+
+    <TextView
+        android:id="@+id/tv_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        app:layout_constraintStart_toEndOf="@+id/imageViewprice"
+        app:layout_constraintTop_toBottomOf="@+id/namePrice"
+        tools:text="Rp. 120.000/ Hari" />
+
+    <ImageView
+        android:id="@+id/imageViewWork"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@drawable/ic_keahlian"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageViewprice" />
+
+    <TextView
+        android:id="@+id/tv_work"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        app:layout_constraintStart_toEndOf="@+id/imageViewWork"
+        app:layout_constraintTop_toBottomOf="@+id/tv_price"
+        tools:text="Baby Sitter, Teknisi" />
+
+    <ImageView
+        android:id="@+id/imageViewLoc"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@drawable/ic_loc"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageViewWork"
+        app:tint="@color/yellow1" />
+
+    <TextView
+        android:id="@+id/tv_location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        app:layout_constraintStart_toEndOf="@+id/imageViewLoc"
+        app:layout_constraintTop_toBottomOf="@+id/tv_work"
+        tools:text="Ciputat, Tangerang Selatan" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

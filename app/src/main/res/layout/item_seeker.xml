@@ -53,21 +53,7 @@
             tools:text="Pamulang (5 km)" />
 
         <TextView
-            android:id="@+id/workerWork"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:drawableStart="@drawable/ic_star"
-            android:drawablePadding="4dp"
-            android:textSize="12sp"
-            app:layout_constraintBottom_toBottomOf="@id/workerImage"
-            app:layout_constraintEnd_toEndOf="@id/workerImage"
-            app:layout_constraintStart_toStartOf="@id/workerImage"
-            app:layout_constraintTop_toBottomOf="@id/workerLocation"
-            tools:text="Pekerjaan" />
-
-        <!-- Rating pekerja -->
-        <TextView
-            android:id="@+id/workerRating"
+            android:id="@+id/workerRatingSeeker"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:drawableStart="@drawable/ic_star"
@@ -80,4 +66,5 @@
             tools:text="4.5" />
 
     </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
