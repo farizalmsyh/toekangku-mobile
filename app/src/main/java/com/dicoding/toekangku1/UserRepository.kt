@@ -11,6 +11,7 @@ import com.dicoding.toekangku1.data.SubmitOTP
 import com.dicoding.toekangku1.data.User
 import com.dicoding.toekangku1.data.UserPreference
 import com.dicoding.toekangku1.response.ForgotPasswordResponse
+import com.dicoding.toekangku1.response.GetUserResponse
 import com.dicoding.toekangku1.response.LoginResponse
 import com.dicoding.toekangku1.response.RegisterResponse
 import com.dicoding.toekangku1.response.ResetPasswordResponse
@@ -48,6 +49,9 @@ class UserRepository private constructor(
 
     private val _forgotPassword = MutableLiveData<ForgotPasswordResponse>()
     val forgotPassword: LiveData<ForgotPasswordResponse> = _forgotPassword
+
+    private val _getUser  = MutableLiveData<GetUserResponse>()
+    val getUser: LiveData<GetUserResponse> = _getUser
 
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
@@ -458,8 +462,67 @@ class UserRepository private constructor(
                     }
                 }
             }
+        })
+    }
+
+    fun getUser(
+        token: String
+    ){
+        _isLoading.value = true
+        val client = apiService.getUser(token)
+
+        client.enqueue(object: Callback<GetUserResponse> {
+            override fun onResponse(
+                call: Call<GetUserResponse>,
+                response: Response<GetUserResponse>
+            ) {
+                try {
+                    _isLoading.value=false
+                    if (response.isSuccessful && response.body() != null){
+                        _getUser.value = response.body()
+
+                    } else {
+                        val jsonObject = response.errorBody().toString()?.let { JSONObject(it) }
+                        val error = jsonObject?.getBoolean("error")
+                        val message = jsonObject?.getString("message")
+                        _toastText.value = Event(
+                            "${response.message()} ${response.code()}, $message"
+
+                        )
+                        Log.e(
+                            "postLogin",
+                            "onResponse: ${response.message()}, ${response.code()} $message"
+                        )
+                    }
+                } catch (e: JSONException){
+                    _toastText.value = Event(e.message.toString())
+                    Log.e("JSONException", "onResponse: ${e.message.toString()}")
+                } catch (e: Exception){
+                    _toastText.value = Event(e.message.toString())
+                    Log.e("Exception", "onResponse: ${e.message.toString()}")
+                }
+            }
+
+            override fun onFailure(call: Call<GetUserResponse>, t: Throwable) {
+                _isLoading.value=false
+                when(t){
+                    is UnknownHostException -> {
+                        _toastText.value = Event("No Internet Connection")
+                        Log.e("UnknownHostException", "onFailure: ${t.message.toString()}")
+                    }
+
+                    else -> {
+                        _toastText.value = Event(t.message.toString())
+                        Log.e("postLogin", "onFailure: ${t.message.toString()}")
+                    }
+                }
+            }
 
         })
+    }
+
+    fun getThreadSeeker(){
+
     }
 //    suspend fun saveSession(user: User) {
 //        userPreference.saveSession(user)

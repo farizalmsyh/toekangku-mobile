@@ -5,10 +5,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.dicoding.toekangku1.R
 import com.dicoding.toekangku1.databinding.ActivityHomeWorkerBinding
-import com.dicoding.toekangku1.ui.chat.ChatActivity
 import com.dicoding.toekangku1.ui.profile.ProfileActivity
 import com.dicoding.toekangku1.ui.thread.ThreadSeekerActivity
-import com.dicoding.toekangku1.ui.thread.mythreadsseeker.MyDetailThreadsSeeker
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class HomeWorkerActivity : AppCompatActivity() {
@@ -32,7 +30,7 @@ class HomeWorkerActivity : AppCompatActivity() {
                     true
                 }
                 R.id.menu_percakapan -> {
-                    val intent = Intent(applicationContext, ChatActivity::class.java)
+//                    val intent = Intent(applicationContext, ChatActivity::class.java)
                     startActivity(intent)
                     true
                 }
@@ -49,7 +47,7 @@ class HomeWorkerActivity : AppCompatActivity() {
 
     private fun setupAction(){
         binding.rvTerkaitHome.setOnClickListener {
-            startActivity(Intent(this, MyDetailThreadsSeeker::class.java))
+//            startActivity(Intent(this, MyDetailThreadsSeeker::class.java))
         }
     }
 }

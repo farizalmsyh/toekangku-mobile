@@ -33,7 +33,8 @@ class GetOTPViewModel(
             response?.let {
                 if (it.success == true) {
                     it.data?.token?.let { token ->
-                        saveSession(token)
+                        val type = it.data?.type
+                        saveSession(token, type)
                         _toastText.value = "OTP Verified Successfully"
                     } ?: run {
                         _toastText.value = "Token is null"
@@ -47,10 +48,11 @@ class GetOTPViewModel(
         }
     }
 
-    private fun saveSession(token: String) {
+    private fun saveSession(token: String, type: String?) {
         val sharedPreferences = context.getSharedPreferences("APP_PREFS", Context.MODE_PRIVATE)
         with(sharedPreferences.edit()) {
             putString("TOKEN", token)
+            putString("TYPE", type)
             apply()
         }
     }

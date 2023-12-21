@@ -7,7 +7,6 @@ import androidx.activity.viewModels
 import com.dicoding.toekangku1.R
 import com.dicoding.toekangku1.databinding.ActivityProfileBinding
 import com.dicoding.toekangku1.ui.ViewModelFactory
-import com.dicoding.toekangku1.ui.chat.ChatActivity
 import com.dicoding.toekangku1.ui.home.HomeSeekerActivity
 import com.dicoding.toekangku1.ui.thread.ThreadSeekerActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -36,7 +35,7 @@ class ProfileActivity : AppCompatActivity() {
                     true
                 }
                 R.id.menu_percakapan -> {
-                    val intent = Intent(applicationContext, ChatActivity::class.java)
+//                    val intent = Intent(applicationContext, ChatActivity::class.java)
                     startActivity(intent)
                     true
                 }

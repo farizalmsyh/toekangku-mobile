@@ -11,12 +11,13 @@ class HomeViewModel (
     private val context: Context
 ) : ViewModel() {
 
-    private val _sessionToken = MutableLiveData<String?>()
-    val sessionToken: LiveData<String?>
-        get() = _sessionToken
+    private val _sessionData = MutableLiveData<Pair<String?, String?>>()
+    val sessionData: LiveData<Pair<String?, String?>> = _sessionData
 
-    fun loadSessionToken() {
+    fun getSession(token: String, type: String) {
         val sharedPreferences = context.getSharedPreferences("APP_PREFS", Context.MODE_PRIVATE)
-        _sessionToken.value = sharedPreferences.getString("TOKEN", null)
+        val token = sharedPreferences.getString("TOKEN", token)
+        val type = sharedPreferences.getString("TYPE", type)
+        _sessionData.postValue(Pair(token, type))
     }
 }

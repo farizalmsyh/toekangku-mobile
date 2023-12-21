@@ -2,17 +2,20 @@ package com.dicoding.toekangku1.retrofit
 
 import com.dicoding.toekangku1.data.Experience
 import com.dicoding.toekangku1.response.ForgotPasswordResponse
+import com.dicoding.toekangku1.response.GetUserResponse
 import com.dicoding.toekangku1.response.LoginResponse
 import com.dicoding.toekangku1.response.RegisterResponse
 import com.dicoding.toekangku1.response.ResetPasswordResponse
 import com.dicoding.toekangku1.response.SubmitOTPResponse
 import com.dicoding.toekangku1.response.SubmitResetOTPResponse
+import com.dicoding.toekangku1.response.main.GetThreadSeekerResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
+import retrofit2.http.Header
 import retrofit2.http.Multipart
 import retrofit2.http.POST
 import retrofit2.http.Part
@@ -70,6 +73,16 @@ interface ApiService {
         @Field("email") email: String
     ) : Call<SubmitResetOTPResponse>
 
+    @GET("/v1/mobile/auth/user")
+    fun getUser(
+        @Header("Authorization") token: String
+    ) : Call<GetUserResponse>
+
+    @GET("/v1/mobile/seeker/thread?limit=10&offset=0")
+    fun getThreadSeeker(
+        @Header("Authorization") token: String
+    ) : Call<GetThreadSeekerResponse>
+
     @FormUrlEncoded
     @POST("/v1/mobile/auth/reset-password")
     fun  resetPassword(
@@ -79,7 +92,6 @@ interface ApiService {
         @Field("password") password: String,
         @Field("password_confirmation") konfirmasi: String
     ) : Call<ResetPasswordResponse>
-
 
 
     @FormUrlEncoded

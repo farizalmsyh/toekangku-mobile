@@ -4,23 +4,23 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.viewModels
+import androidx.lifecycle.Observer
+import com.bumptech.glide.Glide
 import com.dicoding.toekangku1.R
 import com.dicoding.toekangku1.databinding.ActivityHomeSeekerBinding
+import com.dicoding.toekangku1.response.GetUserResponse
+import com.dicoding.toekangku1.response.User
 import com.dicoding.toekangku1.ui.ViewModelFactory
-import com.dicoding.toekangku1.ui.chat.ChatActivity
-import com.dicoding.toekangku1.ui.home.detail.DetailSeekerActivity
-import com.dicoding.toekangku1.ui.home.detail.DetailWorkerActivity
-import com.dicoding.toekangku1.ui.home.listworker.ListWorkerActivity
 import com.dicoding.toekangku1.ui.login.LoginActivity
 import com.dicoding.toekangku1.ui.profile.ProfileActivity
 import com.dicoding.toekangku1.ui.thread.ThreadSeekerActivity
-import com.dicoding.toekangku1.ui.thread.detail.DetailPostActivity
-import com.dicoding.toekangku1.ui.thread.detail.DetailPostWorker
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class HomeSeekerActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityHomeSeekerBinding
+    private var token = ""
+    private var type = ""
     private val homeViewModel: HomeViewModel by viewModels { ViewModelFactory.getInstance(this) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,7 +41,7 @@ class HomeSeekerActivity : AppCompatActivity() {
                     true
                 }
                 R.id.menu_percakapan -> {
-                    val intent = Intent(applicationContext, ChatActivity::class.java)
+//                    val intent = Intent(applicationContext, ChatActivity::class.java)
                     startActivity(intent)
                     true
                 }
@@ -56,38 +56,54 @@ class HomeSeekerActivity : AppCompatActivity() {
 
         setupView()
         observeSessionToken()
-        homeViewModel.loadSessionToken()
+        homeViewModel.getSession(token, type)
+        setupAction()
     }
 
     private fun setupView(){
         supportActionBar?.hide()
     }
 
-    private fun observeSessionToken(){
-        homeViewModel.sessionToken.observe(this) { token ->
-            if (token.isNullOrEmpty()) {
-                // Token is null or empty
-                // Redirect to Login Screen
-                val intent = Intent(this, LoginActivity::class.java)
+    private fun observeSessionToken() {
+        val user =
+        homeViewModel.sessionData.observe(this, Observer { (token, userType) ->
+            if (userType != "Pekerja") {
+                // Jika userType adalah "Pelanggan", arahkan ke HomePelangganActivity
+                val intent = Intent(this, HomeWorkerActivity::class.java)
                 startActivity(intent)
-                finish()
+                finish() // Menutup HomeSeekerActivity agar tidak kembali ke sini saat menekan tombol back
             } else {
-                // Token exists, you can proceed with user-specific data loading
+                // Jika userType adalah "Seeker", setup tampilan untuk Seeker
+                setupViewForSeeker()
             }
+        })
+    }
+
+    private fun setupViewForSeeker(user: User){
+        binding.lokasiPengguna.text = user.locationCity ?: "Lokasi tidak diketahui"
+        binding.namaPengguna.text = user.name ?: "Nama tidak diketahui"
+
+        // Pastikan Anda menghandle URL gambar dengan tepat jika tipe datanya adalah 'Any'
+        // Misalnya, jika itu adalah String, Anda bisa gunakan Glide untuk memuat gambar:
+        if (user.pictureUrl is String) {
+            Glide.with(this)
+                .load(user.pictureUrl)
+                .circleCrop() // Jika Anda ingin gambar menjadi lingkaran
+                .into(binding.profileSeeker) // Sesuaikan dengan ID ImageView yang sebenarnya
         }
     }
 
     private fun setupAction(){
         binding.selengkapnyaLabel.setOnClickListener{
-            startActivity(Intent(this, ListWorkerActivity::class.java))
+//            startActivity(Intent(this, ListWorkerActivity::class.java))
         }
 
         binding.recommendedWorkersRecyclerView.setOnClickListener{
-            startActivity(Intent(this, DetailWorkerActivity::class.java))
+//            startActivity(Intent(this, DetailWorkerActivity::class.java))
         }
 
         binding.relatedPostsRecyclerView.setOnClickListener{
-            startActivity(Intent(this, DetailPostActivity::class.java))
+//            startActivity(Intent(this, DetailPostActivity::class.java))
         }
     }
 }

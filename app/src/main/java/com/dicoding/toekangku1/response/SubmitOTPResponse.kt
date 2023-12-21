@@ -17,5 +17,8 @@ data class SubmitOTPResponse(
 data class loginResult(
 
 	@field:SerializedName("token")
-	val token: String? = null
+	val token: String? = null,
+
+	@field:SerializedName("type")
+	val type: String? = null
 )

@@ -68,6 +68,8 @@ dependencies {
 
     implementation ("io.github.chaosleung:pinview:1.4.4")
 
+    implementation ("com.github.bumptech.glide:glide:4.11.0")
+
     //dotsindicator
 //    implementation("com.tbuonomo:dotsindicator:5.0")
 
